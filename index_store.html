@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Wear Store</title>
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #81D8D0;
+            --background-color: #f8f8f8;
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --text-secondary-color: #666666;
+        }
+        body {
+    margin: 0;
+    padding: 0; /* padding-top を削除 */
+}
+        body, html {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px; /* 内部の余白を追加 */
+}
+
+.product-name {
+    margin-bottom: 0.5em;
+    height: 2.4em; /* 2行分の高さを確保 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.price-button-container {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.product-price {
+    margin-bottom: 0.5em; /* 価格とボタの間隔を調整 */
+    font-weight: bold;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.add-to-cart-btn:hover {
+    background-color: #2980b9;
+}
+header {
+    color: var(--primary-color);
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 2em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 60px;
+    width: 100%;
+    box-sizing: border-box;
+}
+header {
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.header-transparent {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.header-white {
+    background-color: white;
+}
+
+nav {
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.official-web {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    padding-right: 82px;
+}
+
+.hero-section {
+    position: relative;
+    height: 100vh; /* 全画面高さに戻す */
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.slideshow-container {
+    position: absolute;
+    top: 0; /* ヘッダーの高さ分下げない */
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slideshow-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slideshow-images img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slideshow-images img.active {
+    opacity: 1;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 10;
+    width: 80%;
+    max-width: 1000px;
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    opacity: 0;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.form-group input,
+.form-group select {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 12px 10px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* これを追加 */
+}
+
+.form-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+}
+
+.form-group label {
+    
+    position: absolute;
+    top: -20px;  /* ラベルを入力フィールドの上に配置 */
+    left: 0;
+    font-size: 14px;
+    color: #333;  /* ラベルの色を黒に変更 */
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--secondary-color);
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+    color: #999;
+}
+
+/* チェックボックスのスタイル調整 */
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.checkbox input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.form-group.checkbox label {
+    position: static;
+    font-size: 16px;
+    color: var(--text-color);
+}
+.form-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+}
+
+.form-group select::-ms-expand {
+    display: none;
+}
+
+.form-group select option {
+    color: #333;
+}
+/* エラーメッセージのスタイル */
+.error-message {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 送信ボタンのスタイル調整 */
+.submit-btn {
+    margin-top: 30px;
+}
+
+
+
+
+.submit-btn:hover {
+    background-color: darken(var(--secondary-color), 10%);
+}
+
+#address-fields {
+    transition: all 0.3s ease;
+}
+
+#address-fields.hidden {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    opacity: 0;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.subtitle-underline {
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 0;
+    height: 8px;
+    background-color: rgba(129, 216, 208, 0.3);
+}
+
+        h1, h2, h3 {
+            font-weight: 300;
+        }
+        .product {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.product.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 2em;
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1em;
+        }
+        .product h3 {
+            cursor: pointer;
+            color: var(--primary-color);
+            margin: 0.5em 0;
+        }
+        .product h3:hover {
+            text-decoration: underline;
+        }
+        .product p {
+            color: var(--text-secondary-color);
+            margin: 0.5em 0;
+        }
+        .cart {
+            background-color: var(--surface-color);
+            border-radius: 10px;
+            padding: 1em;
+            margin-top: 2em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .checkout-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+
+.checkout-form input[type="text"],
+.checkout-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+        .checkout-form input, .checkout-form select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+        }
+        .order-complete {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    margin: 0 auto 15px;
+    box-shadow: inset 0px 0px 0px var(--secondary-color);
+    animation: none;
+}
+
+.checkmark.animate {
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: var(--secondary-color);
+    fill: none;
+    animation: none;
+}
+
+.checkmark__circle.animate {
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: none;
+}
+
+.checkmark__check.animate {
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px var(--secondary-color);
+    }
+}
+        .add-to-cart-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        .add-to-cart-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 5px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1001;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.add-to-cart-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; transform: translateY(-20px); }
+    10%, 90% { opacity: 1; transform: translateY(0); }
+}
+
+.add-to-cart-notification.animate {
+    animation: fadeInOut 3s ease;
+}
+.digital-payment-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+.digital-payment-option img {
+    height: 30px;
+    width: auto;
+}
+.digital-payment-brand {
+    cursor: pointer;
+}
+
+.digital-payment-brand input[type="radio"] {
+    display: none;
+}
+
+.digital-payment-brand img {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.digital-payment-brand input[type="radio"]:not(:checked) + img {
+    opacity: 0.6;
+}
+
+.digital-payment-brand input[type="radio"]:checked + img {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+
+
+.product:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-name {
+    margin-bottom: 0.5em;
+    height: 2.8em; /* 高さを少し増やす */
+    line-height: 1.4em; /* 行間を適切に設定 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #2980b9;
+}
+        .loading::after {
+            content: "";
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .payment-option {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}       
+        .payment-fields {
+    display: none;
+    margin-top: 20px;
+}
+.order-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.order-button:hover {
+    background-color: #45a049;
+}
+
+
+
+.payment-methods h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-option {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    background-color: #f9f9f9;
+}
+
+.payment-option.selected {
+    border-color: var(--primary-color);
+    background-color: #e3f2fd;
+}
+
+.payment-option-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.payment-option-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #bdbdbd;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+}
+
+.payment-option.selected .payment-option-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+}
+
+.payment-option-label {
+    font-weight: 500;
+}
+.payment-logo {
+    height: 24px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+.payment-logos {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+@media (max-width: 768px) {
+
+    .add-to-cart-notification{
+        width: 60%;
+    }
+
+    header {
+        padding: 0.5em 1em;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 60px;  /* ヘッダーの高さを固定 */
+    }
+
+    .official-web, .logo, .cart-icon {
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .official-web {
+        margin-left: 15px;  /* 左側の空白 (X) */
+    }
+
+    .logo {
+        font-size: 1.5em;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);  /* 中央に配置 */
+        padding: 0;
+    }
+
+    .cart-icon {
+        margin-right: 15px;  /* 右側の空白 (X) */
+    }
+
+    .cart-icon img {
+        width: 24px;
+        height: 24px;
+    }
+}
+.payment-methods {
+    margin-top: 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.copyright {
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .payment-methods {
+        justify-content: center;
+    }
+
+    .payment-logo {
+        margin: 0 7px 10px;
+    }
+}
+#digital-payment-fields p {
+    margin: 0;
+}
+        .payment-method {
+            margin-bottom: 10px;
+        }
+        .payment-method label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .payment-method input[type="radio"] {
+            margin-right: 10px;
+        }
+       #checkout-page {
+    padding-top: 80px; /* ヘッダーの高さ + 追加の余白 */
+    padding-bottom: 40px; /* 下部にも余白を追加 */
+}
+
+#checkout-page h2 {
+    margin-bottom: 30px; /* タイトルの下に余白を追加 */
+}
+.order-summary {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.order-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.order-item-details {
+    flex-grow: 1;
+}
+
+.order-item-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.order-item-price {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+/* ハンバーガーメニューのスタイル */
+.hamburger {
+    width: 30px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1002; /* モバイルメニューより上に表示 */
+}
+
+.hamburger span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: var(--primary-color);
+    border-radius: 3px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+}
+
+.hamburger span:nth-child(1) { top: 0px; }
+.hamburger span:nth-child(2) { top: 8px; }
+.hamburger span:nth-child(3) { top: 16px; }
+
+.hamburger.open span {
+    background: var(--surface-color); /* 白色に変更 */
+}
+
+.hamburger.open span:nth-child(1) {
+    top: 8px;
+    transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+}
+
+.hamburger.open span:nth-child(3) {
+    top: 8px;
+    transform: rotate(-45deg);
+}
+
+/* モバイルメニューのスタイル */
+.mobile-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: left 0.7s ease;
+    z-index: 1001;
+    padding-top: 60px;
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.mobile-menu-items {
+    padding: 60px 20px 20px;
+}
+
+.mobile-menu-items a {
+    display: block;
+    color: var(--surface-color);
+    text-decoration: none;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.social-links {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1002;
+}
+
+.social-links a {
+    color: var(--surface-color);
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+.card-brands {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.card-logo {
+    height: 30px;
+    width: auto;
+    border-radius: 4px;
+}
+
+
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+#cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.cart-details {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background-color: var(--surface-color);
+    border-radius: 10px;
+    padding: 1em;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 10000;
+}
+.page {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.page.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
+
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+        .card-brands img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        #credit-card-fields {
+            display: none;
+            margin-top: 20px;
+        }
+        .trademark-notice {
+            font-size: 12px;
+            color: var(--text-secondary-color);
+            text-align: center;
+            margin-top: 15px;
+        }
+        header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+header h1 a:hover {
+    text-decoration: underline;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: var(--surface-color);
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+  <header>
+    <nav>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <a href="#" class="logo">Where Wear Store</a>
+        <div class="cart-icon">
+            <img src="cart.png" alt="ショッピングカート" onclick="toggleCartDetails()">
+            <span id="cart-count">0</span>
+        </div>
+    </nav>
+</header>
+
+<div class="mobile-menu">
+    <div class="close-button">&times;</div>
+    <div class="mobile-menu-items">
+        <a href="index.html">OFFICIAL WEB</a>
+        <a href="https://twitter.com/@noton26" target="_blank">X</a>
+        <a href="https://www.youtube.com/@notoff" target="_blank">YouTube</a>
+        <a href="https://www.twitch.tv/" target="_blank">Twitch</a>
+    </div>
+</div>
+    <div id="cart-details" class="cart-details">
+        <h3>ショッピングカート</h3>
+        <div id="cart-items"></div>
+        <p>合計: <span id="cart-total">0</span>円</p>
+        <button onclick="showCheckout()">チェックアウトに進む</button>
+    </div><div id="add-to-cart-notification" class="add-to-cart-notification"></div>
+    <div class="hero-section">
+        <div class="slideshow-container">
+            <div class="slideshow-images">
+                <img src="slide1.jpg" alt="Slide 1">
+                <img src="slide2.jpg" alt="Slide 2">
+                <img src="slide3.jpg" alt="Slide 3">
+                <img src="slide4.jpg" alt="Slide 4">
+                <img src="slide5.jpg" alt="Slide 5">
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1>Where Wear Store</h1>
+            <p class="hero-subtitle">What and where do you want to wear it?<span class="subtitle-underline"></span></p>
+        </div>
+    </div>
+    <div class="container">
+        <div id="products-page" class="page active">
+            <div class="products" id="products"></div>
+        </div>
+        <div id="checkout-page" class="page">
+            <h2>注文確認</h2>
+            <div class="order-summary" id="order-summary"></div>
+            <form class="checkout-form" onsubmit="event.preventDefault(); handleSubmit();">
+                <div class="form-group">
+                    <input type="text" name="lastname" id="lastname" required>
+                    <label for="lastname">姓</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="firstname" id="firstname" required>
+                    <label for="firstname">名</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" id="email" required>
+                    <label for="email">メールアドレス</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" id="phone">
+                    <label for="phone">電話番号</label>
+                </div>
+                <div id="address-fields">
+                    <div class="form-group">
+                        <input type="text" name="postal-code" id="postal-code" required>
+                        <label for="postal-code">郵便番号</label>
+                    </div>
+                    <div class="form-group">
+                        <select name="prefecture" id="prefecture" required>
+                            <option value="" disabled selected>選択してください</option>
+                        <option value="">都道府県を選択</option>
+                        <option value="北海道">北海道</option>
+                        <option value="青森県">青森県</option>
+                        <option value="岩手県">岩手県</option>
+                        <option value="宮城県">宮城県</option>
+                        <option value="秋田県">秋田県</option>
+                        <option value="山形県">山形県</option>
+                        <option value="福島県">福島県</option>
+                        <option value="茨城県">茨城県</option>
+                        <option value="栃木県">栃木県</option>
+                        <option value="群馬県">群馬県</option>
+                        <option value="埼玉県">埼玉県</option>
+                        <option value="千葉県">千葉県</option>
+                        <option value="東京都">東京都</option>
+                        <option value="神奈川県">神奈川県</option>
+                        <option value="新潟県">新潟県</option>
+                        <option value="富山県">富山県</option>
+                        <option value="石川県">石川県</option>
+                        <option value="福井県">福井県</option>
+                        <option value="山梨県">山梨県</option>
+                        <option value="長野県">長野県</option>
+                        <option value="岐阜県">岐阜県</option>
+                        <option value="静岡県">静岡県</option>
+                        <option value="愛知県">愛知県</option>
+                        <option value="三重県">三重県</option>
+                        <option value="滋賀県">滋賀県</option>
+                        <option value="京都府">京都府</option>
+                        <option value="大阪府">大阪府</option>
+                        <option value="兵庫県">兵庫県</option>
+                        <option value="奈良県">奈良県</option>
+                        <option value="和歌山県">和歌山県</option>
+                        <option value="鳥取県">鳥取県</option>
+                        <option value="島根県">島根県</option>
+                        <option value="岡山県">岡山県</option>
+                        <option value="広島県">広島県</option>
+                        <option value="山口県">山口県</option>
+                        <option value="徳島県">徳島県</option>
+                        <option value="香川県">香川県</option>
+                        <option value="愛媛県">愛媛県</option>
+                        <option value="高知県">高知県</option>
+                        <option value="福岡県">福岡県</option>
+                        <option value="佐賀県">佐賀県</option>
+                        <option value="長崎県">長崎県</option>
+                        <option value="熊本県">熊本県</option>
+                        <option value="大分県">大分県</option>
+                        <option value="宮崎県">宮崎県</option>
+                        <option value="鹿児島県">鹿児島県</option>
+                        <option value="沖縄県">沖縄県</option>
+                    </select>
+                    <label for="prefecture">都道府県</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="city" id="city" required>
+                    <label for="city">市区町村</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="address1" id="address1" required>
+                    <label for="address1">番地など</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="address2" id="address2">
+                    <label for="address2">アパート名、部屋番号など</label>
+                </div>
+            </div>
+            <div class="form-group checkbox">
+                <input type="checkbox" name="skip-address" id="skip-address">
+                <label for="skip-address">住所は省略します</label>
+            </div>
+                <!-- 支払い方法の選択（既存のコード） -->
+                <div class="payment-methods">
+                    <h3>支払い方法を選択してください</h3>
+                    <div class="payment-options">
+                        <div class="payment-option" data-payment-type="credit-card">
+                            <div class="payment-option-header">
+                                <span class="payment-option-radio"></span>
+                                <span class="payment-option-label">クレジットカード</span>
+                            </div>
+                            <div class="card-brands" id="credit-card-brands">
+                                <img src="visa.svg" alt="Visa" class="card-logo">
+                                <img src="mastercard.svg" alt="Mastercard" class="card-logo">
+                                <img src="jcb.svg" alt="JCB" class="card-logo">
+                                <img src="american-express.svg" alt="American Express" class="card-logo">
+                            </div>
+                        </div>
+                        <div class="payment-option" data-payment-type="digital-payment">
+                            <div class="payment-option-header">
+                                <span class="payment-option-radio"></span>
+                                <span class="payment-option-label">デジタル決済</span>
+                            </div>
+                            <div class="card-brands" id="digital-payment-brands">
+                                <label class="digital-payment-brand">
+                                    <input type="radio" name="digital-payment" value="apple-pay" onchange="selectDigitalPayment(this)">
+                                    <img src="apple-pay.svg" alt="Apple Pay" class="card-logo">
+                                </label>
+                                <label class="digital-payment-brand">
+                                    <input type="radio" name="digital-payment" value="google-pay" onchange="selectDigitalPayment(this)">
+                                    <img src="google-pay.svg" alt="Google Pay" class="card-logo">
+                                </label>
+                                <label class="digital-payment-brand">
+                                    <input type="radio" name="digital-payment" value="paypal" onchange="selectDigitalPayment(this)">
+                                    <img src="paypal.svg" alt="PayPal" class="card-logo">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="payment-option" data-payment-type="cash-on-delivery">
+                            <div class="payment-option-header">
+                                <span class="payment-option-radio"></span>
+                                <span class="payment-option-label">代金引換</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="credit-card-fields" class="payment-fields">
+                    <input type="text" placeholder="カード番号">
+                    <input type="text" placeholder="有効期限 (MM/YY)">
+                    <input type="text" placeholder="カード名義人">
+                    <input type="text" placeholder="セキュリティコード">
+                </div>
+                <div id="digital-payment-fields" class="payment-fields">
+                    <p>デジタル決済サービスを選択してください。</p>
+                </div>
+                <div class="trademark-notice">
+                    各ロゴは各社の商標または登録商標です。
+                </div>
+                <button type="submit" class="submit-btn">注文を確定する</button>
+            </form>
+        </div>
+        <div id="complete-page" class="page">
+            <div class="order-complete">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" stroke="#fff" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h2>ありがとうございます。注文が確定されました。</h2>
+                <p>注文の詳細と確認のEメールを送信しました。</p>
+                <button onclick="resetStore()">ショッピングを続ける</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-to-cart-message" id="add-to-cart-message">商品がカートに追加されました</div>
+    <div class="loading" id="loading"></div>
+
+    <script>
+        function toggleCreditCardFields(show) {
+    const creditCardFields = document.getElementById("credit-card-fields");
+    creditCardFields.style.display = show ? "block" : "none";
+}
+
+
+const products = [
+    { id: 1, name: "WHERE WEAR WING TEE", price: 6600, image: "wingtee.jpg" },
+    { id: 2, name: "2024 OFFICIAL JERSEY", price: 12000, image: "jersey.jpg" },
+    { id: 3, name: "WHERE WEAR CREW NECK SWEAT", price: 12900, image: "sweat.jpg" },
+    { id: 4, name: "SPACE WHERE WEAR CUSHION", price: 4700, image: "cushion.jpg" },
+    { id: 5, name: "WHERE WEAR BASIC CAP", price: 4500, image: "cap.jpg" },
+    { id: 6, name: "WHERE WEAR PRO JACKET", price: 15000, image: "jacket.jpg" },
+    { id: 7, name: "WHERE WEAR SATIN JACKET", price: 22000, image: "satin.jpg" },
+    { id: 8, name: "WHERE WEAR METAL KEY CHAIN", price: 1500, image: "metalkey.jpg" },
+    { id: 9, name: "WHERE WEAR ACRYLIC KEY CHAIN", price: 1500, image: "acrylickey.jpg" },
+    { id: 10, name: "WHERE WEAR AMERICAN FOODIE", price: 14900, image: "foodie_american.jpg" },
+    { id: 11, name: "WHERE WEAR HEADSET BLACK TEE", price: 6600, image: "blacktee.jpg" },
+    { id: 12, name: "WHERE WEAR GLASS", price: 2000, image: "glass.jpg" }
+];
+
+        let cart = [];
+        
+
+        function displayProducts() {
+    const productsDiv = document.getElementById("products");
+    productsDiv.innerHTML = "";
+    products.forEach((product, index) => {
+        const productElement = document.createElement('div');
+        productElement.className = 'product';
+        productElement.style.transitionDelay = `${index * 100}ms`;
+        productElement.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <div class="price-button-container">
+                    <p class="product-price">¥${product.price.toLocaleString()}</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(${product.id})">カートに追加</button>
+                </div>
+            </div>
+        `;
+        productsDiv.appendChild(productElement);
+    });
+    setupProductObservers();
+}
+// DOMContentLoaded イベントリスナー内で呼び出す
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    // その他の初期化コード
+});
+
+
+        function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    updateCart();
+    showAddToCartNotification(product);
+}
+function toggleCartDetails() {
+    const cartDetails = document.getElementById("cart-details");
+    cartDetails.style.display = cartDetails.style.display === "none" ? "block" : "none";
+}
+function selectPayment(paymentType) {
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    paymentOptions.forEach(option => option.classList.remove('selected'));
+    
+    const selectedOption = document.querySelector(`[data-payment-type="${paymentType}"]`);
+    if (selectedOption) {
+        selectedOption.classList.add('selected');
+    }
+    
+    togglePaymentFields(paymentType);
+    
+    // デジタル決済以外の場合はボタンを有効化
+    document.getElementById('order-button').disabled = (paymentType === 'digital-payment');
+}
+function selectDigitalPayment(radio) {
+    selectPayment('digital-payment');
+    document.getElementById('order-button').disabled = false;
+}
+        function updateCart() {
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const cartCount = document.getElementById("cart-count");
+    cartItems.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+        cartItems.innerHTML += `<p>${item.name} - ${item.price.toLocaleString()}円</p>`;
+        total += item.price;
+    });
+    cartTotal.textContent = total.toLocaleString();
+    cartCount.textContent = cart.length;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    setupProductObservers();
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    paymentOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const paymentType = this.getAttribute('data-payment-type');
+            selectPayment(paymentType);
+        });
+    });
+
+    const digitalPaymentBrands = document.querySelectorAll('input[name="digital-payment"]');
+    digitalPaymentBrands.forEach(brand => {
+        brand.addEventListener('change', function() {
+            selectDigitalPayment(this);
+        });
+    });
+
+    const orderButton = document.getElementById('order-button');
+    if (orderButton) {
+        orderButton.addEventListener('click', handleSubmit);
+    } else {
+        console.error('注文ボタンが見つかりません');
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const closeButton = document.querySelector('.close-button');
+
+    function toggleMenu() {
+        mobileMenu.classList.toggle('active');
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    closeButton.addEventListener('click', toggleMenu);
+
+    // メニュー外をクリックしたら閉じる
+    document.addEventListener('click', function(event) {
+        const isClickInside = mobileMenu.contains(event.target) || hamburger.contains(event.target);
+        if (!isClickInside && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+
+    function updateHeaderBackground() {
+        const header = document.querySelector('header');
+        const heroSection = document.querySelector('.hero-section');
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        const scrollPosition = window.pageYOffset;
+
+        if (scrollPosition < heroBottom) {
+            header.classList.remove('header-transparent');
+            header.classList.add('header-white');
+        } else {
+            header.classList.remove('header-white');
+            header.classList.add('header-transparent');
+        }
+    }
+
+    window.addEventListener('scroll', updateHeaderBackground);
+    window.addEventListener('resize', updateHeaderBackground);
+    updateHeaderBackground();
+});
+        function togglePaymentFields(paymentType) {
+    const creditCardFields = document.getElementById("credit-card-fields");
+    const digitalPaymentFields = document.getElementById("digital-payment-fields");
+    const creditCardBrands = document.getElementById("credit-card-brands");
+    const digitalPaymentBrands = document.getElementById("digital-payment-brands");
+
+    creditCardFields.style.display = "none";
+    digitalPaymentFields.style.display = "none";
+    creditCardBrands.style.display = "none";
+    digitalPaymentBrands.style.display = "none";
+
+    if (paymentType === "credit-card") {
+        creditCardFields.style.display = "block";
+        creditCardBrands.style.display = "flex";
+    } else if (paymentType === "digital-payment") {
+        digitalPaymentFields.style.display = "block";
+        digitalPaymentBrands.style.display = "flex";
+    }
+}
+// イベントリスナーの追加
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('form.checkout-form').addEventListener('submit', handleSubmit);
+});
+function handleSubmit(event) {
+    event.preventDefault();
+    const selectedPayment = document.querySelector('.payment-option.selected');
+    if (!selectedPayment) {
+        alert('支払い方法を選択してください。');
+        return;
+    }
+    
+    if (selectedPayment.getAttribute('data-payment-type') === 'digital-payment') {
+        const selectedDigitalPayment = document.querySelector('input[name="digital-payment"]:checked');
+        if (!selectedDigitalPayment) {
+            alert('デジタル決済のブランドを選択してください。');
+            return;
+        }
+    }
+    
+    // ここに注文処理のコードを追加
+    showLoading();
+    setTimeout(confirmOrder, 3000);
+}
+
+function handleIntersection(entries, observer) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const product = entry.target;
+            setTimeout(() => {
+                product.classList.add('fade-in');
+            }, 100); // 少し遅延を加えて、スクロール位置が安定してから表示
+            observer.unobserve(product);
+        }
+    });
+}
+
+const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1 // 10%が見えたら発火
+};
+
+const observer = new IntersectionObserver(handleIntersection, options);
+
+function setupProductObservers() {
+    const products = document.querySelectorAll('.product');
+    products.forEach(product => {
+        observer.observe(product);
+    });
+}
+
+
+
+function updateOrderSummary() {
+    const orderSummary = document.getElementById("order-summary");
+    orderSummary.innerHTML = "";
+    cart.forEach(item => {
+        orderSummary.innerHTML += `
+            <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" class="order-item-image">
+                <div class="order-item-details">
+                    <h3>${item.name}</h3>
+                    <p class="order-item-price">${item.price.toLocaleString()}円</p>
+                </div>
+            </div>
+        `;
+    });
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    orderSummary.innerHTML += `
+        <div class="order-total">
+            <h3>合計</h3>
+            <p>${total.toLocaleString()}円</p>
+        </div>
+    `;
+}
+
+function closeCartDetails() {
+    document.getElementById("cart-details").style.display = "none";
+}
+document.addEventListener('click', function(event) {
+    const cartIcon = document.querySelector('.cart-icon');
+    const cartDetails = document.getElementById('cart-details');
+    if (!cartIcon.contains(event.target) && !cartDetails.contains(event.target)) {
+        closeCartDetails();
+    }
+});
+
+
+
+function confirmOrder() {
+    hideLoading();
+    const checkoutPage = document.getElementById("checkout-page");
+    const completePage = document.getElementById("complete-page");
+
+    // チェックアウトページをフェードアウト
+    checkoutPage.style.opacity = '0';
+    checkoutPage.style.visibility = 'hidden';
+
+    setTimeout(() => {
+        checkoutPage.classList.remove('active');
+        completePage.classList.add('active');
+
+        // 完了ページをフェードイン
+        setTimeout(() => {
+            completePage.style.opacity = '1';
+            completePage.style.visibility = 'visible';
+
+            // チェックマークのアニメーションを開始
+            const checkmark = document.querySelector('.checkmark');
+            const circle = document.querySelector('.checkmark__circle');
+            const check = document.querySelector('.checkmark__check');
+            
+            checkmark.classList.add('animate');
+            circle.classList.add('animate');
+            check.classList.add('animate');
+
+            // ページの一番上にスクロール
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 50);
+    }, 500);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.slideshow-images img');
+    let currentIndex = 0;
+
+    function showNextImage() {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
+    }
+
+    setInterval(showNextImage, 5000);
+    images[0].classList.add('active');
+
+    // Hero content animation
+    const heroTl = gsap.timeline();
+    
+    heroTl.to(".hero-content", {opacity: 1, y: 0, duration: 1, ease: "power3.out"})
+          .to("h1", {opacity: 1, y: 0, duration: 0.8, ease: "power3.out"}, "-=0.5")
+          .to(".hero-subtitle", {opacity: 1, y: 0, duration: 0.8, ease: "power3.out"}, "-=0.5")
+          .to(".subtitle-underline", {width: "100%", duration: 0.5, ease: "power2.out"});
+});
+
+// チェックアウトページ表示時にヒーローコンテンツを非表示にする関数
+function showCheckout() {
+    if (cart.length === 0) {
+        alert("カートが空です。");
+        return;
+    }
+
+    const productsPage = document.getElementById("products-page");
+    const checkoutPage = document.getElementById("checkout-page");
+    const heroSection = document.querySelector('.hero-section');
+
+    // カートの詳細を閉じる
+    document.getElementById("cart-details").style.display = "none";
+
+    // 商品ページとヒーローセクションをフェードアウト
+    productsPage.classList.add('fade-out');
+    heroSection.classList.add('fade-out');
+
+    // アニメーションの完了を待ってからチェックアウトページを表示
+    setTimeout(() => {
+        productsPage.classList.remove('active');
+        heroSection.style.display = 'none';
+        checkoutPage.classList.add('active');
+
+        // チェックアウトページをフェードイン
+        setTimeout(() => {
+            checkoutPage.classList.remove('fade-out');
+        }, 50);
+
+        updateOrderSummary();
+        // ページの一番上にスムーズにスクロール
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 500); // CSSのトランジション時間と合わせる
+}
+
+// ホームページに戻る関数を更新
+function returnToHome(event) {
+    event.preventDefault();
+    
+    // 現在のカート内容を保持
+    const currentCart = [...cart];
+    
+    // 現在のアクティブページを取得
+    const activePage = document.querySelector('.page.active');
+    
+    // アクティブページをフェードアウト
+    activePage.classList.add('fade-out');
+
+    setTimeout(() => {
+        // すべてのページを非アクティブにする
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+            page.classList.add('fade-out');
+        });
+        
+        // トップページをアクティブにする
+        const productsPage = document.getElementById('products-page');
+        productsPage.classList.add('active');
+        
+        // ヒーローセクションを表示
+        const heroSection = document.querySelector('.hero-section');
+        heroSection.style.display = 'block';
+        
+        // トップページとヒーローセクションをフェードイン
+        setTimeout(() => {
+            productsPage.classList.remove('fade-out');
+            heroSection.classList.remove('fade-out');
+        }, 50);
+        
+        // カートの内容を復元
+        cart = currentCart;
+        updateCart();
+        
+        // カートの詳細を閉じる
+        document.getElementById('cart-details').style.display = 'none';
+    }, 500); // CSSのトランジション時間と合わせる
+}
+// ホームページに戻る関数を更新
+function returnToHome(event) {
+    event.preventDefault();
+    
+    // 現在のカート内容を保持
+    const currentCart = [...cart];
+    
+    // 現在のアクティブページを取得
+    const activePage = document.querySelector('.page.active');
+    
+    // アクティブページをフェードアウト
+    activePage.classList.add('fade-out');
+
+    setTimeout(() => {
+        // すべてのページを非アクティブにする
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+            page.classList.add('fade-out');
+        });
+        
+        // トップページをアクティブにする
+        const productsPage = document.getElementById('products-page');
+        productsPage.classList.add('active');
+        
+        // ヒーローセクションを表示
+        const heroSection = document.querySelector('.hero-section');
+        heroSection.style.display = 'block';
+        
+        // トップページとヒーローセクションをフェードイン
+        setTimeout(() => {
+            productsPage.classList.remove('fade-out');
+            heroSection.classList.remove('fade-out');
+        }, 50);
+        
+        // カートの内容を復元
+        cart = currentCart;
+        updateCart();
+        
+        // カートの詳細を閉じる
+        document.getElementById('cart-details').style.display = 'none';
+    }, 500); // CSSのトランジション時間と合わせる
+}
+
+function updateHeaderBackground() {
+    const header = document.querySelector('header');
+    const heroSection = document.querySelector('.hero-section');
+    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const scrollPosition = window.pageYOffset;
+
+    if (scrollPosition < heroBottom) {
+        header.classList.remove('header-transparent');
+        header.classList.add('header-white');
+    } else {
+        header.classList.remove('header-white');
+        header.classList.add('header-transparent');
+    }
+}
+
+window.addEventListener('scroll', updateHeaderBackground);
+window.addEventListener('resize', updateHeaderBackground);
+updateHeaderBackground();
+
+function resetStore() {
+    cart = [];
+    updateCart();
+    document.getElementById("complete-page").classList.remove("active");
+    document.getElementById("products-page").classList.add("active");
+    
+    // 注文完了ページの内容をリセット
+    const orderCompletePage = document.querySelector('.order-complete');
+    orderCompletePage.innerHTML = `
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" stroke="#fff" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <h2></h2>
+        <p></p>
+        <button onclick="resetStore()" style="display: none;">ショッピングを続ける</button>
+    `;
+
+    // カートアイコンのイベントリスナーを再設定
+    document.querySelector('.cart-icon').addEventListener('click', toggleCartDetails);
+}
+
+        let notificationTimeout;
+
+        function showAddToCartNotification(product) {
+    const notification = document.getElementById("add-to-cart-notification");
+    
+    // アニメーションをリセット
+    notification.classList.remove('animate');
+    void notification.offsetWidth; // リフロー（再描画）を強制
+    
+    notification.innerHTML = `
+        <p><strong>${product.name}</strong> をカートに追加しました</p>
+        <p>¥${product.price.toLocaleString()}</p>
+    `;
+    
+    // アニメーションを開始
+    notification.classList.add('animate');
+}
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            alert(`${product.name}の詳細ページです。（実際のページは実装されていません）`);
+        }
+
+        function showLoading() {
+            document.getElementById("loading").style.display = "flex";
+        }
+
+        function hideLoading() {
+            document.getElementById("loading").style.display = "none";
+        }
+
+        displayProducts();
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.checkout-form');
+    const skipAddressCheckbox = document.getElementById('skip-address');
+    const addressFields = document.getElementById('address-fields');
+
+    skipAddressCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            addressFields.classList.add('hidden');
+            addressFields.querySelectorAll('input, select').forEach(field => {
+                field.disabled = true;
+                field.required = false;
+            });
+        } else {
+            addressFields.classList.remove('hidden');
+            addressFields.querySelectorAll('input, select').forEach(field => {
+                field.disabled = false;
+                field.required = true;
+            });
+        }
+    });
+
+    window.handleSubmit = function() {
+        if (validateForm()) {
+            showLoading();
+            setTimeout(confirmOrder, 3000);
+        }
+    };
+
+    function validateForm() {
+        let isValid = true;
+        form.querySelectorAll('input:not(:disabled), select:not(:disabled)').forEach(field => {
+            if (field.required && !field.value) {
+                isValid = false;
+                field.classList.add('error');
+                showErrorMessage(field);
+            } else {
+                field.classList.remove('error');
+                hideErrorMessage(field);
+            }
+        });
+        return isValid;
+    }
+
+    function showErrorMessage(field) {
+        let errorMessage = field.nextElementSibling.nextElementSibling;
+        if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+            errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = 'このフィールドは必須です';
+            field.parentNode.appendChild(errorMessage);
+        }
+        errorMessage.style.display = 'block';
+    }
+
+    function hideErrorMessage(field) {
+        const errorMessage = field.parentNode.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }
+
+    // フォームフィールドのアニメーション
+    form.querySelectorAll('input, select').forEach(field => {
+        field.addEventListener('focus', function() {
+            this.parentNode.classList.add('focused');
+        });
+        field.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentNode.classList.remove('focused');
+            }
+        });
+    });
+});
+
+    </script>
+    <div id="notification-container">
+        <div id="add-to-cart-notification" class="notification"></div>
+        <div id="cart-notification" class="notification"></div>
+    </div>
+    <footer>
+        <div class="payment-methods">
+            <img src="visa.svg" alt="Visa" class="payment-logo">
+            <img src="mastercard.svg" alt="Mastercard" class="payment-logo">
+            <img src="jcb.svg" alt="JCB" class="payment-logo">
+            <img src="american-express.svg" alt="American Express" class="payment-logo">
+            <img src="paypal.svg" alt="PayPal" class="payment-logo">
+            <img src="apple-pay.svg" alt="Apple Pay" class="payment-logo">
+            <img src="google-pay.svg" alt="Google Pay" class="payment-logo">
+        </div>
+        <div class="copyright">
+            2024 Where Wear. Everything on this site is not true.
+        </div>
+    </footer>
+</body>
+</html>

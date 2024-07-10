@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where Wear - ゲーミングライフスタイルブランド</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #000000;
+            --accent-color: #81D8D0;
+            --bg-color: #f8f8f8;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.header-transparent {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.header-white {
+    background-color: white;
+}
+        nav {
+             display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    position: relative;
+        }
+        .logo {
+           position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--secondary-color);
+    text-decoration: none;
+        }
+        .logo:hover {
+            color: var(--accent-color);
+        }
+        
+        .-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+}
+
+        .nav-links a {
+            color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+            margin: 0 15px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links.left {
+    justify-content: flex-start;
+}
+
+.nav-links.right {
+    justify-content: flex-end;
+}
+        .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* 背景を少し暗くする */
+    z-index: 1;
+}
+        .hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #ffffff; /* テキストカラーを白に設定 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* テキストの視認性を高めるためのシャドウ */
+}
+h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    
+}
+.hero-subtitle {
+    font-size: 1.4em;
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+    padding-bottom: 0px; /* パディングを減らして文字と線を近づける */
+}
+
+.subtitle-underline {
+    position: absolute;
+    left: 0;
+    bottom: 25px; /* 位置を調整 */
+    width: 0;
+    height: 10px;
+    background-color: rgba(129, 216, 208, 0.3);
+}
+
+.hero-subtitle::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; /* 初期幅を0に設定 */
+    height: 10px;
+    background-color:rgba(129, 216, 208, 0.7);
+}
+        .section {
+            padding: 100px 0;
+        }
+        .section-content {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 300;
+        }
+        .game-section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .game-title {
+            position: relative;
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .game-title:hover {
+            transform: scale(1.02);
+        }
+        .game-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease;
+        }
+        .game-title:hover::before {
+            filter: brightness(0.9);
+        }
+        .game-title h2 {
+            position: relative;
+            z-index: 1;
+            color: var(--primary-color);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 5px;
+            margin: 0;
+            text-align: left;
+            font-size: 2.2em;
+            backdrop-filter: blur(5px);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .valorant-bg::before {
+            background-image: url('valo.jpg');
+        }
+        .apex-bg::before {
+            background-image: url('apex.jpg');
+        }
+        .fortnite-bg::before {
+            background-image: url('fortnite.jpg');
+        }
+        .rocket-league-bg::before {
+            background-image: url('rocketleague.jpg');
+        }
+        .game-info {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .platform {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+        .members-grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 60px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .member {
+        text-align: center;
+        width: 200px;
+    }
+    .member img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .member img:hover {
+        transform: scale(1.05);
+    }
+    .member-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 1.2em;
+    }
+    .member-role {
+        color: #666;
+        font-size: 0.9em;
+    }
+    .copyright-notice {
+    font-size: 0.8em;
+    color: #999;
+    text-align: right;
+    margin-top: 10px;
+}
+.contact-info {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.news-detail {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
+.news-detail .news-content {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.news-detail h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.news-detail .date {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.news-body {
+    line-height: 1.6;
+}
+.email-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.email-link:hover {
+    background-color: darken(var(--accent-color), 10%);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contact-info {
+        padding: 0 20px;
+    }
+}
+.centered {
+    text-align: center;
+}
+.partner {
+    margin-bottom: 40px;
+}
+.partner-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+.news-image {
+    flex: 0 0 300px;
+}
+
+.news-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+
+.news-date {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+.news-item {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.news-content {
+    padding: 20px;
+    max-width: 500px;
+}
+
+.news-content h2 {
+    padding-top: 20px;
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.news-content p {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.news-content.dark h2,
+.news-content.dark p {
+    color: black;
+}
+#news {
+    margin-top: 10px !important;
+    padding-top: 0 !important;
+}
+.more-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.more-btn:hover {
+    background-color: darken(var(--accent-color), 10%);
+}
+
+.official-site {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.official-site a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.official-site a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+.news-content.dark h2{
+    text-align: left;
+}
+@media (max-width: 768px) {
+    .news-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .news-content.dark h2{
+    text-align: center;
+}
+    .news-content {
+        padding-top: 400px;
+    }
+.news-content.dark{
+    padding-top: 400px;
+}
+    .news-item .news-content {
+        text-align: center;
+    }
+    .news-item .news-content h2,
+    .news-item .news-content p,
+    .news-item .news-content .more-btn {
+        color: white;
+    }
+
+    .news-item .news-content .more-btn {
+        background-color: transparent;
+        border: 2px solid white;
+    }
+
+    .news-item .news-content .more-btn:hover {
+        background-color: white;
+        color: black;
+    }
+    .news-image {
+        flex: 0 0 auto;
+        margin-bottom: 10px;
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(170, 170, 170);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 30px;
+    border: none;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transform: translateY(-50px);
+    transition: transform 0.3s ease;
+}
+
+
+.hero {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+
+
+.member-detail {
+    display: flex;
+    gap: 30px;
+}
+
+.member-detail img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+}
+
+.cookie-banner button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cookie-banner button:hover {
+    background-color: var(--accent-color-dark, #6AB3AC);
+}
+
+@media (max-width: 768px) {
+    .cookie-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cookie-banner button {
+        margin-top: 10px;
+    }
+}
+.member-info h2 {
+    margin-top: 0;
+    text-align: left;
+    font-size: 2em;
+    color: #333;
+}
+
+.social-links {
+    margin-top: 15px;
+}
+
+.social-links a {
+    margin-right: 15px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.member img {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.member img:hover {
+    transform: scale(1.05);
+}
+
+.mobile-nav, .mobile-menu {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .desktop-nav {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none;
+    }
+    .mobile-nav .logo {
+    transition: opacity 0.3s ease;
+}
+
+.mobile-nav .logo:active {
+    opacity: 0.7;
+}
+    .mobile-nav {
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    @media (max-width: 768px) {
+    .game-title.valorant-bg::before {
+        background-position: 75% center; /* スマホ版で右寄りに調整 */
+    }
+}
+    .hamburger {
+        width: 30px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1001;
+    margin-left: auto;
+    }
+    .hamburger span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: var(--secondary-color);
+    border-radius: 3px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+    background-color: .25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+    top: 0px;
+}
+
+.hamburger span:nth-child(2) {
+    top: 8px;
+}
+
+.hamburger span:nth-child(3) {
+    top: 16px;
+}
+.hamburger.open span {
+    background: var(--primary-color); /* メニューが開いた時に白色に変更 */
+}
+
+.hamburger.open span:nth-child(1) {
+    top: 8px;
+    transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+}
+
+.hamburger.open span:nth-child(3) {
+    top: 8px;
+    transform: rotate(-45deg);
+}
+
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: -250px;
+        width: 250px;
+        height: 100vh;
+        background-color: var(--secondary-color);
+        transition: right 0.3s ease;
+        z-index: 1000;
+    }
+
+    .mobile-menu.active {
+        right: 0;
+    }
+
+    .mobile-menu-items {
+        padding: 60px 20px 20px;
+    }
+
+    .mobile-menu-items a {
+        display: block;
+        color: var(--primary-color);
+        text-decoration: none;
+        padding: 10px 0;
+        font-size: 18px;
+    }
+
+    
+    .modal {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    .modal-content {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 60px 20px 20px;
+        border-radius: 0;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    .member-detail {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .member-detail img {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 20px;
+    }
+
+    .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+/* デスクトップ用の閉じるボタン */
+.desktop-close {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: none !important;
+    padding: 0 !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+.desktop-close span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #333;
+}
+.desktop-close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.desktop-close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* モバイル用の閉じるボタン */
+.mobile-close {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: none !important;
+    padding: 0 !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+.mobile-close span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #333;
+   
+}
+
+.mobile-close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.mobile-close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+    .desktop-close {
+        display: none;
+    }
+
+    .mobile-close {
+        display: block;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .close {
+        display: block;
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        z-index: 1002;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    /* モバイル用のバツ印のスタイルも必要に応じて調整 */
+    
+}
+
+    .member-info h2 {
+        font-size: 1.8em;
+        margin-top: 0;
+    }
+
+    .member-info p {
+        font-size: 0.9em;
+        line-height: 1.4;
+    }
+
+    .social-links {
+        margin: 15px 0;
+    }
+
+    .social-links a {
+        font-size: 0.9em;
+        margin-right: 10px;
+    }
+    .hero-content h1 {
+        font-size: 2.5em;
+        white-space: nowrap;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2em;
+        line-height: 1.4;
+        padding-bottom: 5px;
+    }
+
+    .subtitle-underline {
+        height: 2px;
+        bottom: 0;
+    }
+}
+.modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+
+.modal .close:hover,
+.modal .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .modal .close{
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 36px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+}
+
+#contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 150px;
+}
+
+@media (max-width: 768px) {
+    #contact-form {
+        padding: 0 20px;
+    }
+}
+    </style>
+</head>
+<script>
+    const heroVideo = document.getElementById('heroVideo');
+    const videos = ['hero1.mp4', 'hero2.mp4'];
+    let currentVideoIndex = 0;
+
+    heroVideo.addEventListener('ended', function() {
+        currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+        heroVideo.src = videos[currentVideoIndex];
+        heroVideo.play();
+    });
+</script>
+<body >
+    <div id="cookie-banner" class="cookie-banner">
+        <p>当サイトではCookieを使用しています。続行することで、Cookieの使用に同意したことになります。</p>
+        <button id="accept-cookies">同意する</button>
+    </div>
+    <header>
+        <div class="container desktop-nav">
+            <nav>
+                <div class="nav-links left">
+                    <a href="#news">NEWS</a>
+                    <a href="#games">MEMBERS</a>
+                    <a href="#about">ABOUT</a>
+                </div>
+                <a href="#" id="logo" class="logo">Where Wear</a>
+                <div class="nav-links right">
+                    <a href="#partners">PARTNERS</a>
+                    <a href="#contact">CONTACT</a>
+                    <a href="index_store.html">STORE</a>
+                </div>
+            </nav>
+        </div>
+        <div class="mobile-nav">
+            <a href="#" id="mobile-logo" class="logo">Where Wear</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-items">
+                <a href="#news">NEWS</a>
+                <a href="#games">MEMBERS</a>
+                <a href="#about">ABOUT</a>
+                <a href="#partners">PARTNERS</a>
+                <a href="#contact">CONTACT</a>
+                <a href="index_store.html">STORE</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+                <source src="hero1.mp4" type="video/mp4">
+            </video>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Where Wear</h1>
+                    <p class="hero-subtitle">“Wherever you are, whatever you wear, team up with Where Wear.”</p>
+                    <div class="subtitle-underline"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="news" class="section">
+            <div class="news-item" style="background-image: url('vcjsp3.jpg');">
+                <div class="news-content">
+                    <h2>Fighting for Glory // VCJ Split 3</h2>
+                    <p>Don't be afraid, we are the challengers.</p>
+                    <a href="news-vcj-split3.html" class="more-btn">MORE</a>
+                </div>
+            </div>
+            <div class="news-item" style="background-image: url('2024jersey.jpg');">
+                <div class="news-content dark">
+                    <h2>2024 OFFICIAL JERSEY</h2>
+                    <p>Available at the Where Wear Store</p>
+                    <a href="index_store.html" class="more-btn">STORE</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="games" class="section">
+            <div class="container">
+                <div class="section-content">
+                    <h2>MEMBERS</h2>
+                    
+                    <div class="game-section">
+                        <div class="game-title valorant-bg" data-game="valorant">
+                            <h2>VALORANT</h2>
+                        </div>
+                        <div class="game-info">
+                            <p class="platform">PC</p>
+                            <p>VALORANTはRiot Gamesが開発運営する戦略型FPSゲームです。最高峰のインターナショナルリーグ・グローバルトーナメントにて、日本代表としてFPS界の歴史を塗り替えます。</p>
+                            <p class="official-site">公式サイト: <a href="https://playvalorant.com/ja-jp/" target="_blank">VALORANT 公式サイト</a></p>
+                        </div>
+                        <p class="copyright-notice">VALORANTはRiot Gamesの商標です。</p>
+                    </div>
+                    <div class="members-grid">
+                        <div class="member">
+                            <img src="noton.jpg" alt="Noton">
+                            <p class="member-name">Noton</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                        
+                        <div class="member">
+                            <img src="kabakaba.png" alt="kabakaba">
+                            <p class="member-name">kabakaba</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                    </div>
+                    <div class="game-section">
+                        <div class="game-title apex-bg" data-game="apex">
+                            <h2>Apex Legends</h2>
+                        </div>
+                        <div class="game-info">
+                            <p class="platform">PC / PlayStation / Xbox / Nintendo Switch</p>
+                            <p>Apex LegendsはRespawn Entertainmentが開発したバトルロイヤルゲームです。チームワークと戦略的な判断が勝利の鍵となります。</p>
+                            <p class="official-site">公式サイト: <a href="https://www.ea.com/ja-jp/games/apex-legends" target="_blank">Apex Legends 公式サイト</a></p>
+                        </div>
+                        <p class="copyright-notice">© 2024 Electronic Arts Inc.</p>
+                    </div>
+                    <div class="members-grid">
+                        <div class="member">
+                            <img src="torippi.png" alt="torippi">
+                            <p class="member-name">Torippy T</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                        <div class="member">
+                            <img src="kaf.jpg" alt="KAF">
+                            <p class="member-name">KAF</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                    </div>
+                    <div class="game-section">
+                        <div class="game-title fortnite-bg" data-game="fortnite">
+                            <h2>Fortnite</h2>
+                        </div>
+                        <div class="game-info">
+                            <p class="platform">PC / PlayStation / Xbox / Nintendo Switch / Mobile</p>
+                            <p>FortniteはEpic Gamesが開発したバトルロイヤルゲームです。建築要素と独特な世界観で人気を集めています。</p>
+                            <p class="official-site">公式サイト: <a href="https://www.fortnite.com/" target="_blank">Fortnite 公式サイト</a></p>
+                        </div>
+                        <p class="copyright-notice">Fortniteは、Epic Games, Inc. の商標ならびに著作物です。</p>
+                    </div>
+                    <div class="members-grid">
+                        <div class="member">
+                            <img src="worried.jpg" alt="worriedkey828"data-member="worried">
+                            <p class="member-name">worried-key828</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                        <div class="member">
+                            <img src="nopeip.jpg" alt="nopeip">
+                            <p class="member-name">nopeip</p>
+                            <p class="member-role">ATHLETE</p>
+                        </div>
+                    </div>
+                    <div class="game-section">
+                        <div class="game-title rocket-league-bg" data-game="rocket-league">
+                            <h2>Rocket League</h2>
+                        </div>
+                        <div class="game-info">
+                            <p class="platform">PC / PlayStation / Xbox / Nintendo Switch</p>
+                            <p>Rocket LeagueはPsyonixが開発したサッカーとカーレースを組み合わせたユニークなゲームです。高度な技術と戦略が求められます。</p>
+                            <p class="official-site">公式サイト: <a href="https://www.rocketleague.com/" target="_blank">Rocket League 公式サイト</a></p>
+                        </div>
+                        <p class="copyright-notice">Rocket LeagueはEpic Games, Inc. の商標ならびに著作物です。</p>
+                        <div class="members-grid">
+                            <div class="member">
+                                <img src="worried.jpg" alt="worriedkey828"data-member="worried">
+                                <p class="member-name">worried-key828</p>
+                                <p class="member-role">ATHLETE</p>
+                            </div>
+                            <div class="member">
+                                <img src="nopeip.jpg" alt="nopeip">
+                                <p class="member-name">nopeip</p>
+                                <p class="member-role">ATHLETE</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-content">
+                    <h2 class="centered">ABOUT</h2>
+                    <p>Where wearとは、Apex Legendsのクラン機能実装日である2020年11月2日に発足されたeスポーツチームです。「どこにいる」という意味の"Where"と、「着る」という意味の"Wear"を組み合わせて、どこにいても何を着ていても関係がないという意味があるかもしれません。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="partners" class="section">
+            <div class="container">
+                <div class="section-content">
+                    <h2>PARTNERS</h2>
+                    <div class="partner">
+                        <div class="partner-image" style="background-image: url('redbull.jpg');"></div>
+                        <h3>Red Bull</h3>
+                        <p>ココロ、カラダ、みなぎる。レッドブル・エナジードリンクは、トップアスリート、多忙なプロフェッショナル、アクティブな学生、ロングドライブをする方など、世界中で評価をいただいています。</p>
+                    </div>
+                    <div class="partner">
+                        <div class="partner-image" style="background-image: url('intel.jpg');"></div>
+                        <h3>intel</h3>
+                        <p>eスポーツ・ゲーム・テクノロジーの未来を変革。業界トップクラスの PC ゲーム・イノベーションと、eスポーツ・エコシステムに対する比類のないサポートにより、インテルはプロゲーム世界の発展に当初から力を注いできています。</p>
+                    </div>
+                    <div class="partner">
+                        <div class="partner-image" style="background-image: url('zowie.png');"></div>
+                        <h3>ZOWIE</h3>
+                        <p>ZOWIEは、プロフェッショナルなe-Sports機器の開発に特化したブランドです。プレイヤーが最高の状態でプレイできるよう、製品開発に取り組んでいます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- モーダルウィンドウ -->
+       <!-- モーダルウィンドウ -->
+       <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <button class="close desktop-close" aria-label="閉じる">
+                <span></span>
+                <span></span>
+            </button>
+            <button class="close mobile-close" aria-label="閉じる">
+                <span></span>
+                <span></span>
+            </button>
+            <div id="memberDetails"></div>
+        </div>
+    </div>
+    </main>
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-content">
+                <h2 class="centered">CONTACT</h2>
+                <div class="contact-info">
+                    <p>お問い合わせは以下のメールアドレスまでお願いします：</p>
+                    <a href="mailto:tatenoorange@gmail.com" class="email-link">tatenoorange@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>2024 Where Wear. Everything on this site is not true.</p>
+        </div>
+    </footer>
+
+    <script>
+
+
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ヒーローセクションのアニメーション
+        // ヒーローセクションのアニメーション
+// ヒーローセクションのアニメーション
+const heroTl = gsap.timeline();
+heroTl.from(".hero-content", {opacity: 0, y: 50, duration: 1, ease: "power3.out"})
+      .from("h1", {opacity: 0, y: 50, duration: 0.8, ease: "power3.out"})
+      .from(".hero-subtitle", {opacity: 0, y: 20, duration: 0.8, ease: "power3.out"})
+      .to(".subtitle-underline", {width: "100%", duration: 0.5, ease: "power2.out"});
+       // セクションのフェードインアニメーション（修正）
+gsap.utils.toArray(".section-content").forEach((section, i) => {
+    gsap.to(section, {
+        scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            once: true, // この行を追加
+        },
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+});
+
+// ゲームセクションのアニメーション（修正）
+gsap.utils.toArray(".game-section").forEach((section, i) => {
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            once: true, // この行を追加
+        }
+    });
+
+    tl.to(section, {opacity: 1, y: 0, duration: 0.8, ease: "power3.out"})
+      .to(section.querySelector(".game-title h2"), {opacity: 1, y: 0, duration: 0.5, ease: "power3.out"}, "-=0.4")
+      .to(section.querySelector(".game-info"), {opacity: 1, y: 0, duration: 0.5, ease: "power3.out"}, "-=0.2");
+});
+        document.addEventListener('DOMContentLoaded', function() {
+    const logo = document.getElementById('logo');
+    
+    if (logo) {
+        logo.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Logo clicked');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else {
+        console.error('Logo element not found');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('memberModal');
+    const desktopCloseBtn = modal.querySelector('.desktop-close');
+    const mobileCloseBtn = modal.querySelector('.mobile-close');
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    if (desktopCloseBtn) desktopCloseBtn.addEventListener('click', closeModal);
+    if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeModal);
+
+    // モーダル外をクリックしても閉じるようにする
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+});
+
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('memberModal');
+    const desktopCloseBtn = modal.querySelector('.desktop-close');
+    const mobileCloseBtn = modal.querySelector('.mobile-close');
+     
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    if (desktopCloseBtn) desktopCloseBtn.addEventListener('click', closeModal);
+    if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeModal);
+
+    // モーダル外をクリックしても閉じるようにする
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+    // メンバーデータ
+    const memberData = {
+        noton: {
+            name: 'Noton',
+            fullName: 'ex-fortnite__notoff',
+            birthDate: '0000/00/00',
+            description: 'Where Wearの創設メンバー。主にコントローラーを担当している。感度は1600dpi,0.15である。',
+            image: 'noton.jpg',
+            socialLinks: {
+                twitter: 'https://twitter.com/@noton26',
+                youtube: 'https://www.youtube.com/@notoff',
+                twitch: 'https://www.twitch.tv/'
+            }
+        },
+        // 他の選手のデータも同様に追加
+        kabakaba: {
+            name: 'Kabakaba',
+            fullName: 'Hikaru Kaihatsu',
+            birthDate: '1989/04/21',
+            description: 'Where Wearの創設メンバー。一瞬のひらめきからのスーパープレイや、相手が「されると嫌なこと」を常に考えて行動している頭脳派プレイヤー。未だランクはダイヤモンドのため、今後に注目。',
+            image: 'kabakaba.jpg',
+            socialLinks: {
+                twitter: 'https://twitter.com/@kabakaba_',
+                youtube: 'https://www.youtube.com/',
+                twitch: 'https://www.twitch.tv/'
+            }
+        },
+        torippi: {
+            name: 'Torippy T',
+            fullName: 'Professional Minecrafter',
+            birthDate: '0000/00/00',
+            description: 'とりっぴーさん。マインクラフトの建築センスがとても良い。エペもフォートナイトもうまい。',
+            image: 'torippi.png',
+            socialLinks: {
+                twitter: 'https://twitter.com/',
+                youtube: 'https://www.youtube.com/',
+                twitch: 'https://www.twitch.tv/'
+            }
+        },
+        kaf: {
+            name: 'KAF',
+            fullName: 'Apex Pad Player',
+            birthDate: '0000/00/00',
+            description: 'Apexの立ち回りはWhere Wearトップ。長きPS4時代に磨いたPadスキルをPCの場でも活かすことができるか。',
+            image: 'kaf.jpg',
+            socialLinks: {
+                twitter: 'https://twitter.com/',
+                youtube: 'https://www.youtube.com/',
+                twitch: 'https://www.twitch.tv/'
+            }
+        },
+        worriedkey828: {
+            name: 'worried-key828',
+            fullName: 'Jagaimo',
+            birthDate: 'XXXX/XX/XX',
+            description: 'FortniteのPadプレイヤーとしては彼の右に出るものはいない。グロ画像とも言えるサブマシンガンを見たら君はきっとフォートナイトをアンインストールするだろう。',
+            image: 'worried.jpg',
+            socialLinks: {
+                twitter: 'https://twitter.com/@Qh9GKmkrb2p7G9g', 
+                youtube: 'https://www.youtube.com/',
+                twitch: 'https://www.twitch.tv/'
+            }
+        },
+        nopeip: {
+            name: 'nopeip',
+            fullName: 'Peter Benjamin Parker',
+            birthDate: '2001/08/10',
+            description: 'Where Wearオーナー、またの名をPS4直差し界の帝王nopeip。まるで240fpsのその動きはプレイヤーを絶望させる。彼がPCとなった今、Fortniteは壊れるだろう。',
+            image: 'nopeip.jpg',
+            socialLinks: {
+                twitter: 'https://twitter.com/', 
+                youtube: 'https://www.youtube.com/',
+                twitch: 'https://www.twitch.tv/'
+    }
+},
+    }        
+
+    document.querySelectorAll('.member img').forEach(img => {
+        img.addEventListener('click', function() {
+            const memberId = this.alt.toLowerCase();
+            const member = memberData[memberId];
+            if (member) {
+                memberDetails.innerHTML = `
+                    <div class="member-detail">
+                        <img src="${member.image}" alt="${member.name}">
+                        <div class="member-info">
+                            <h2>${member.name}</h2>
+                            <p><strong>ATHLETE</strong></p>
+                            <p>${member.fullName}</p>
+                            <p>${member.birthDate}</p>
+                            <div class="social-links">
+                                ${member.socialLinks.twitter ? `<a href="${member.socialLinks.twitter}" target="_blank">X</a>` : ''}
+                                ${member.socialLinks.youtube ? `<a href="${member.socialLinks.youtube}" target="_blank">YouTube</a>` : ''}
+                                ${member.socialLinks.twitch ? `<a href="${member.socialLinks.twitch}" target="_blank">Twitch</a>` : ''}
+                            </div>
+                            <p>${member.description}</p>
+                        </div>
+                    </div>
+                `;
+                modal.style.display = 'block';
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+                }, 10);
+            }
+        });
+    });
+
+    function closeModal() {
+    const modal = document.getElementById('memberModal');
+    modal.style.opacity = '0';
+    modal.querySelector('.modal-content').style.transform = 'translateY(-50px)';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+}
+
+    closeBtn.onclick = closeModal;
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+});
+// モバイルメニューの制御
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 既存のコード...
+
+    // モバイルロゴのタップイベント処理
+    const mobileLogo = document.getElementById('mobile-logo');
+    if (mobileLogo) {
+        mobileLogo.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // 既存のコード...
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const emailLink = document.querySelector('.email-link');
+    const emailParts = ['tatenoorange', '@', 'gmail.com'];
+    emailLink.href = 'mailto:' + emailParts.join('');
+    emailLink.textContent = emailParts.join('');
+});
+
+window.addEventListener('resize', adjustModalForMobile);
+document.querySelectorAll('.member img').forEach(img => {
+    img.addEventListener('click', adjustModalForMobile);
+});
+function adjustHeroContent() {
+    const heroContent = document.querySelector('.hero-content');
+    const subtitle = document.querySelector('.hero-subtitle');
+    const underline = document.querySelector('.subtitle-underline');
+
+    if (window.innerWidth <= 768) {
+        // モバイル版のレイアウト調整
+        heroContent.querySelector('h1').style.fontSize = '2.5em';
+        subtitle.style.width = 'auto';
+        underline.style.width = '100%';
+        underline.style.bottom = '0';
+    } else {
+        // デスクトップ版のレイアウトをリセット
+        heroContent.querySelector('h1').style.fontSize = '';
+        subtitle.style.width = '';
+        underline.style.width = '';
+        underline.style.bottom = '';
+    }
+}
+
+window.addEventListener('load', adjustHeroContent);
+window.addEventListener('resize', adjustHeroContent);
+
+
+
+
+function updateHeaderBackground() {
+    const header = document.querySelector('header');
+    const heroSection = document.querySelector('.hero');
+    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const scrollPosition = window.pageYOffset;
+
+    if (scrollPosition < heroBottom) {
+        header.classList.remove('header-transparent');
+        header.classList.add('header-white');
+    } else {
+        header.classList.remove('header-white');
+        header.classList.add('header-transparent');
+    }
+}
+
+window.addEventListener('scroll', updateHeaderBackground);
+window.addEventListener('resize', updateHeaderBackground);
+document.addEventListener('DOMContentLoaded', updateHeaderBackground);
+
+// モーダルウィンドウの調整関数を更新
+
+function adjustModalForMobile() {
+    const modal = document.getElementById('memberModal');
+    const modalContent = document.querySelector('.modal-content');
+    const memberDetailImg = document.querySelector('.member-detail img');
+   
+    
+    if (window.innerWidth <= 768) {
+        modalContent.style.width = '100%';
+        modalContent.style.height = '100%';
+        modalContent.style.margin = '0';
+        modalContent.style.padding = '60px 20px 20px';
+        modalContent.style.borderRadius = '0';
+        modalContent.style.overflowY = 'auto';
+        closeBtn.style.fontSize = '24px';
+        closeBtn.style.width = '40px';
+        closeBtn.style.height = '40px';
+
+        if (memberDetailImg) {
+            memberDetailImg.style.width = '150px';
+            memberDetailImg.style.height = '150px';
+        }
+
+        closeBtn.style.position = 'fixed';
+        closeBtn.style.top = '10px';
+        closeBtn.style.right = '10px';
+    } else {
+        modalContent.style.width = '80%';
+        modalContent.style.height = 'auto';
+        modalContent.style.margin = '15% auto';
+        modalContent.style.padding = '30px';
+        modalContent.style.borderRadius = '15px';
+        modalContent.style.overflowY = 'visible';
+
+        if (memberDetailImg) {
+            memberDetailImg.style.width = '200px';
+            memberDetailImg.style.height = '200px';
+        }
+
+
+    }
+    
+    modal.style.backgroundColor = window.innerWidth <= 768 ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.4)';
+}
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // ここにフォーム送信の処理を追加
+    alert('お問い合わせありがとうございます。メッセージが送信されました。');
+    this.reset();
+});
+// モーダルを開く関数を更新
+function openModal(memberId) {
+    const modal = document.getElementById('memberModal');
+    const member = memberData[memberId];
+    if (member) {
+        // モーダルの内容を設定
+        document.getElementById('memberDetails').innerHTML = `
+            <div class="member-detail">
+                <img src="${member.image}" alt="${member.name}">
+                <div class="member-info">
+                    <h2>${member.name}</h2>
+                    <p><strong>ATHLETE</strong></p>
+                    <p>${member.fullName}</p>
+                    <p>${member.birthDate}</p>
+                    <div class="social-links">
+                        ${member.socialLinks.twitter ? `<a href="${member.socialLinks.twitter}" target="_blank">X</a>` : ''}
+                        ${member.socialLinks.youtube ? `<a href="${member.socialLinks.youtube}" target="_blank">YouTube</a>` : ''}
+                        ${member.socialLinks.twitch ? `<a href="${member.socialLinks.twitch}" target="_blank">Twitch</a>` : ''}
+                    </div>
+                    <p>${member.description}</p>
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'block';
+        adjustModalForMobile();
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+        }, 10);
+    }
+}
+
+// イベントリスナーを更新
+document.querySelectorAll('.member img').forEach(img => {
+    img.addEventListener('click', function() {
+        const memberId = this.alt.toLowerCase();
+        openModal(memberId);
+    });
+});
+
+window.addEventListener('resize', adjustModalForMobile);
+
+
+
+    </script>
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptCookies = document.getElementById('accept-cookies');
+
+    function showCookieBanner() {
+        cookieBanner.style.display = 'flex';
+        // 強制的にレイアウトを再計算させる
+        void cookieBanner.offsetWidth;
+        cookieBanner.style.opacity = '1';
+    }
+
+    function hideCookieBanner() {
+        cookieBanner.style.opacity = '0';
+        cookieBanner.addEventListener('transitionend', function handler() {
+            cookieBanner.style.display = 'none';
+            cookieBanner.removeEventListener('transitionend', handler);
+        });
+        localStorage.setItem('cookiesAccepted', 'true');
+    }
+
+    if (!localStorage.getItem('cookiesAccepted')) {
+        setTimeout(showCookieBanner, 1000);
+    }
+
+    acceptCookies.addEventListener('click', hideCookieBanner);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const body = document.body;
+
+    function toggleMenu() {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+    // 個別の色変更のコードは削除
+}
+
+    hamburger.addEventListener('click', toggleMenu);
+
+    // メニュー外をクリックしたら閉じる
+    document.addEventListener('click', function(event) {
+        const isClickInside = mobileMenu.contains(event.target) || hamburger.contains(event.target);
+        if (!isClickInside && mobileMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    // メニュー項目をクリックしたら閉じる
+    const menuItems = document.querySelectorAll('.mobile-menu-items a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', toggleMenu);
+    });
+});
+
+        </script>
+</body>
+</html>
