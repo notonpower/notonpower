@@ -1345,13 +1345,16 @@ document.addEventListener('DOMContentLoaded', function() {
             ? Object.values(memberData) 
             : Object.values(memberData).filter(m => m.division.includes(team));
         
-        filteredMembers.sort((a, b) => a.name.localeCompare(b.name)).forEach((member, index) => {
-            const memberElement = document.createElement("div");
-            memberElement.className = "member fade-out";
-            memberElement.innerHTML = `
-                <img src="${member.image}" alt="${member.name}">
-                <p class="member-name">${member.name}</p>
-                <p class="member-role">ATHLETE</p>
+            filteredMembers.sort((a, b) => a.name.localeCompare(b.name)).forEach((member, index) => {
+        const memberElement = document.createElement("div");
+        memberElement.className = "member fade-out";
+        const roleName = member.division.length > 1 
+            ? `${member.division.join(' / ')} ATHLETE`
+            : `${member.division[0]} ATHLETE`;
+        memberElement.innerHTML = `
+            <img src="${member.image}" alt="${member.name}">
+            <p class="member-name">${member.name}</p>
+            <p class="member-role">${roleName}</p>
             `;
             memberElement.querySelector('img').addEventListener('click', () => openModal(member.name.toLowerCase().replace(/[^a-z0-9]/g, '')));
             grid.appendChild(memberElement);
@@ -1368,12 +1371,15 @@ function openModal(memberId) {
     const modal = document.getElementById('memberModal');
     const member = memberData[memberId];
     if (member) {
+        const roleName = member.division.length > 1 
+            ? `${member.division.join(' / ')} ATHLETE`
+            : `${member.division[0]} ATHLETE`;
         document.getElementById('memberDetails').innerHTML = `
             <div class="member-detail">
                 <img src="${member.image}" alt="${member.name}">
                 <div class="member-info">
                     <h2>${member.name}</h2>
-                    <p><strong>ATHLETE</strong></p>
+                    <p><strong>${roleName}</strong></p>
                     <p>${member.fullName}</p>
                     <p>${member.birthDate}</p>
                     <div class="social-links">
