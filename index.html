@@ -120,12 +120,12 @@
 .nav-links.right {
     justify-content: flex-end;
 }
-        .hero {
-    position: relative;
-    height: 100vh;
+.hero {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -139,18 +139,7 @@
     background: rgba(0, 0, 0, 0.4); /* 背景を少し暗くする */
     z-index: 1;
 }
-        .hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translateX(-50%) translateY(-50%);
-    object-fit: cover;
-}
-
+        
 .hero-content {
     position: relative;
     z-index: 2;
@@ -190,6 +179,40 @@ h1 {
     width: 0; /* 初期幅を0に設定 */
     height: 10px;
     background-color:rgba(129, 216, 208, 0.7);
+}
+
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slideshow-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slideshow-images img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slideshow-images img.active {
+    opacity: 1;
+}
+#news.section{
+    padding-bottom: 10px;
 }
         .section {
             padding: 100px 0;
@@ -434,6 +457,7 @@ h1 {
 }
 
 .news-content h2 {
+    text-align: left;
     padding-top: 20px;
     font-size: 2em;
     font-weight: 600;
@@ -993,17 +1017,6 @@ h1 {
 }
     </style>
 </head>
-<script>
-    const heroVideo = document.getElementById('heroVideo');
-    const videos = ['hero1.mp4', 'hero2.mp4'];
-    let currentVideoIndex = 0;
-
-    heroVideo.addEventListener('ended', function() {
-        currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-        heroVideo.src = videos[currentVideoIndex];
-        heroVideo.play();
-    });
-</script>
 <body >
     <div id="cookie-banner" class="cookie-banner">
         <p>当サイトではCookieを使用しています。続行することで、Cookieの使用に同意したことになります。</p>
@@ -1013,24 +1026,24 @@ h1 {
         <div class="container desktop-nav">
             <nav>
                 <div class="nav-links left">
-                    <a href="#news">NEWS</a>
+                   <a href="#news">NEWS</a>
                     <a href="#games">MEMBERS</a>
                     <a href="#about">ABOUT</a>
                 </div>
-               <a href="#" id="logo" class="logo">
-    <img src="logo.PNG" alt="Where Wear" width="auto" height="40">
-</a>
+                <a href="index.html" id="logo" class="logo">
+                    <img src="logo.PNG" alt="Where Wear" width="auto" height="40">
+                </a>
                 <div class="nav-links right">
-                    <a href="#partners">PARTNERS</a>
+                   <a href="#partners">PARTNERS</a>
                     <a href="#contact">CONTACT</a>
                     <a href="index_store.html">STORE</a>
                 </div>
             </nav>
         </div>
         <div class="mobile-nav">
-            <a href="#" id="mobile-logo" class="logo">
-    <img src="logo.PNG" alt="Where Wear" width="auto" height="30">
-</a>
+            <a href="index.html" id="mobile-logo" class="logo">
+                <img src="logo.PNG" alt="Where Wear" width="auto" height="30">
+            </a>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -1051,13 +1064,19 @@ h1 {
 
     <main>
         <section id="home" class="hero">
-            <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-                <source src="hero1.mp4" type="video/mp4">
-            </video>
+            <div class="slideshow-container">
+                <div class="slideshow-images">
+                    <img src="hero1.jpg" alt="Hero Image 1">
+                    <img src="hero2.jpg" alt="Hero Image 2">
+                    <img src="hero3.jpg" alt="Hero Image 3">
+                    <img src="hero4.jpg" alt="Hero Image 4">
+                    <img src="hero5.jpg" alt="Hero Image 5">
+                </div>
+            </div>
             <div class="container">
                 <div class="hero-content">
                     <h1>Where Wear</h1>
-                    <p class="hero-subtitle">“Wherever you are, whatever you wear, team up with Where Wear.”</p>
+                    <p class="hero-subtitle">"Wherever you are, whatever you wear, team up with Where Wear."</p>
                     <div class="subtitle-underline"></div>
                 </div>
             </div>
@@ -1077,6 +1096,22 @@ h1 {
                     <p>Available at the Where Wear Store</p>
                     <a href="index_store.html" class="more-btn">STORE</a>
                 </div>
+            </div>
+        </section>
+        <section id="about" class="news-item" style="background-image: url('about.jpg');">
+            <div class="news-content">
+                <h2>Where Wear is</h2>
+                <p>
+                    Where wear is an e-sports team<br>
+                    that was launched on November 2, 2020,<br>
+                    the day the clan function of <br>Apex Legends was implemented.<br>
+                    Combining "Where" meaning "where you are"<br>
+                    and "Wear" meaning "to wear,"<br>
+                    it may mean that it doesn't matter<br>
+                    where you are or what you wear.<br>
+                    I'm lying, it's just a pun.
+                </p>
+                <a href="index_about.html" class="more-btn">ABOUT</a>
             </div>
         </section>
 
@@ -1217,7 +1252,7 @@ h1 {
         <!-- モーダルウィンドウ -->
        <!-- モーダルウィンドウ -->
        <div id="memberModal" class="modal">
-        <div class="modal-content">
+          <div class="modal-content">
             <button class="close desktop-close" aria-label="閉じる">
                 <span></span>
                 <span></span>
@@ -1227,8 +1262,8 @@ h1 {
                 <span></span>
             </button>
             <div id="memberDetails"></div>
-        </div>
-    </div>
+          </div>
+         </div>
     </main>
     <section id="contact" class="section">
         <div class="container">
@@ -1534,7 +1569,22 @@ window.addEventListener('load', adjustHeroContent);
 window.addEventListener('resize', adjustHeroContent);
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.slideshow-images img');
+    let currentIndex = 0;
 
+    function showNextImage() {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
+    }
+
+    // 最初の画像を表示
+    images[0].classList.add('active');
+
+    // 5秒ごとに画像を切り替え
+    setInterval(showNextImage, 5000);
+});
 
 function updateHeaderBackground() {
     const header = document.querySelector('header');
@@ -1710,5 +1760,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
         </script>
+        
 </body>
 </html>
