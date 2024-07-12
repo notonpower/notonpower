@@ -317,29 +317,14 @@ h1 {
         padding: 8px 12px;
     }
 
-    .members-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 10px;
-    }
+    
 
     .member {
         width: 100%; /* 幅を100%に設定 */
     }
 
-    .member img {
-        width: 120px;
-        height: 120px;
-    }
 
-    .member-name {
-        font-size: 14px;
-    }
 
-    .member-role {
-        font-size: 13px;
-    }
-}
 
     .modal-content {
         width: 90%;
@@ -351,7 +336,46 @@ h1 {
         right: 10px;
     }
 }
+@media (max-width: 1024px) {
+    .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 10px;
+    }
 
+    .members-grid .member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .members-grid .member-name {
+        font-size: 16px;
+    }
+
+    .members-grid .member-role {
+        font-size: 14px;
+    }
+}
+
+/* 小さなスマートフォン用のスタイル */
+@media (max-width: 480px) {
+    .members-grid {
+        gap: 15px;
+    }
+
+    .members-grid .member img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .members-grid .member-name {
+        font-size: 14px;
+    }
+
+    .members-grid .member-role {
+        font-size: 13px;
+    }
+}
 
 .members-grid {
     display: grid;
@@ -366,14 +390,11 @@ h1 {
 .member {
         width: auto; /* モバイルでは幅を自動に */
     }
-.member img {
-    width: 150px;
-    height: 150px;
+.members-grid .member img {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    margin-bottom: 20px; /* 画像の下に余白を追加 */
 }
     .member img:hover {
         transform: scale(1.05);
