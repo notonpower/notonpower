@@ -717,7 +717,17 @@ h1 {
 .member {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
+.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 .member.fade-in {
     opacity: 1;
     transform: translateY(0);
@@ -727,7 +737,13 @@ h1 {
     opacity: 0;
     transform: translateY(20px);
 }
+.member {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+#header-image, #game-description, #game-platform, #members-grid {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 .modal {
     display: none;
     position: fixed;
@@ -1398,10 +1414,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const gamePlatform = document.getElementById("game-platform");
 
     // Fade out current content
-    headerImage.style.opacity = 0;
-    gameDescription.style.opacity = 0;
-    gamePlatform.style.opacity = 0;
-    grid.style.opacity = 0;
+    [headerImage, gameDescription, gamePlatform, grid].forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(20px)';
+    });
 
     setTimeout(() => {
         // Update game info
@@ -1418,6 +1434,8 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredMembers.sort((a, b) => a.name.localeCompare(b.name)).forEach((member, index) => {
             const memberElement = document.createElement("div");
             memberElement.className = "member";
+            memberElement.style.opacity = 0;
+            memberElement.style.transform = 'translateY(20px)';
             const roleName = member.division.length > 1 
                 ? `${member.division.join(' / ')} ATHLETE`
                 : `${member.division[0]} ATHLETE`;
@@ -1428,13 +1446,21 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             memberElement.querySelector('img').addEventListener('click', () => openModal(member.name.toLowerCase().replace(/[^a-z0-9]/g, '')));
             grid.appendChild(memberElement);
+
+            // Fade in each member with delay
+            setTimeout(() => {
+                memberElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                memberElement.style.opacity = 1;
+                memberElement.style.transform = 'translateY(0)';
+            }, index * 50);
         });
 
         // Fade in new content
-        headerImage.style.opacity = 1;
-        gameDescription.style.opacity = 1;
-        gamePlatform.style.opacity = 1;
-        grid.style.opacity = 1;
+        [headerImage, gameDescription, gamePlatform, grid].forEach(el => {
+            el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            el.style.opacity = 1;
+            el.style.transform = 'translateY(0)';
+        });
     }, 300);
 }
 
