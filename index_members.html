@@ -1063,7 +1063,7 @@ h1 {
 
         .members-header-image {
             max-width: 1800px;
-            max-height: 500px;
+            max-height: 300px;
             width: 100%;
             object-fit: cover;
             margin-bottom: 30px;
@@ -1073,6 +1073,7 @@ h1 {
             margin-bottom: 10px;
         }
         .members-description {
+        line-height: 1.8em;
             font-size: 1em;
             margin-bottom: 30px;
         }
@@ -1101,6 +1102,7 @@ h1 {
 
         h1.members-title{
             text-align: center;
+            padding-bottom: 20px;
         }
         
         .members-description{
@@ -1108,7 +1110,15 @@ h1 {
           margin: auto;
           max-width: 40%;
             text-align: center;
+            padding-bottom: 40px;
         }
+        @media (max-width: 768px) {
+    .members-description {
+        max-width: 70%!important;
+    }
+}
+    
+        
         .team-title{
             font-size: 1.2em;
             font-weight: bold;
@@ -1184,11 +1194,12 @@ h1 {
     <main>
         <section id="members" class="section">
             <div class="container">
-                <img src="members.png" alt="Where Wear Members" class="members-header-image">
-                <h1 class="members-title">MEMBERS</h1>
-                <p class="members-description">WHERE WEAR には各部門それぞれ、競技シーントップのプレイヤーが集結しています。すべての選手がスタープレイヤーであり、結果を残し続けています。</p>
-                <h2 class="team-title">TEAM</h2>
-                <div class="team-buttons">
+                <img id="header-image" src="members.png" alt="Where Wear Members" class="members-header-image">
+        <h1 class="members-title">MEMBERS</h1>
+        <p id="game-description" class="members-description"></p>
+        <p id="game-platform" class="game-platform"></p>
+        <h2 class="team-title">TEAM</h2>
+        <div class="team-buttons">
                     <button class="team-button active" data-team="ALL">ALL</button>
                     <button class="team-button" data-team="VALORANT">VALORANT</button>
                     <button class="team-button" data-team="Apex Legends">Apex Legends</button>
@@ -1216,6 +1227,35 @@ h1 {
         </div>
     </footer>
 <script>
+const gameInfo = {
+    ALL: {
+        image: 'members.png',
+        description: 'WHERE WEAR には各部門それぞれ、競技シーントップのプレイヤーが集結しています。すべての選手がスタープレイヤーであり、結果を残し続けています。'
+    },
+    VALORANT: {
+        image: 'valo.webp',
+        description: 'VALORANTはRiot Gamesが開発運営する戦略型FPSゲームです。最高峰のインターナショナルリーグ・グローバルトーナメントにて、日本代表としてFPS界の歴史を塗り替えます。',
+        platform: 'PC'
+    },
+    'Apex Legends': {
+        image: 'apex.webp',
+        description: 'Apex LegendsはRespawn Entertainmentが開発したバトルロイヤルゲームです。チームワークと戦略的な判断が勝利の鍵となります。',
+        platform: 'PC / PlayStation / Xbox / Nintendo Switch'
+    },
+    Fortnite: {
+        image: 'fortnite.webp',
+        description: 'FortniteはEpic Gamesが開発したバトルロイヤルゲームです。建築要素と独特な世界観で人気を集めています。',
+        platform: 'PC / PlayStation / Xbox / Nintendo Switch / Mobile'
+    },
+    'Rocket League': {
+        image: 'rocketleague.webp',
+        description: 'Rocket LeagueはPsyonixが開発したサッカーとカーレースを組み合わせたユニークなゲームです。高度な技術と戦略が求められます。',
+        platform: 'PC / PlayStation / Xbox / Nintendo Switch'
+    }
+};
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const mobileMenu = document.querySelector('.mobile-menu');
@@ -1327,46 +1367,53 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     };
     
-
-
-
     function displayMembers(team = "ALL") {
     const grid = document.getElementById("members-grid");
-    const currentMembers = grid.querySelectorAll('.member');
-    
-    // Fade out current members
-    currentMembers.forEach(member => {
-        member.classList.add('fade-out');
-    });
+    const headerImage = document.getElementById("header-image");
+    const gameDescription = document.getElementById("game-description");
+    const gamePlatform = document.getElementById("game-platform");
+
+    // Fade out current content
+    headerImage.style.opacity = 0;
+    gameDescription.style.opacity = 0;
+    gamePlatform.style.opacity = 0;
+    grid.style.opacity = 0;
 
     setTimeout(() => {
+        // Update game info
+        headerImage.src = gameInfo[team].image;
+        gameDescription.textContent = gameInfo[team].description;
+        gamePlatform.textContent = gameInfo[team].platform || '';
+
+        // Update members grid
         grid.innerHTML = "";
         const filteredMembers = team === "ALL" 
             ? Object.values(memberData) 
             : Object.values(memberData).filter(m => m.division.includes(team));
         
-            filteredMembers.sort((a, b) => a.name.localeCompare(b.name)).forEach((member, index) => {
-        const memberElement = document.createElement("div");
-        memberElement.className = "member fade-out";
-        const roleName = member.division.length > 1 
-            ? `${member.division.join(' / ')} ATHLETE`
-            : `${member.division[0]} ATHLETE`;
-        memberElement.innerHTML = `
-            <img src="${member.image}" alt="${member.name}">
-            <p class="member-name">${member.name}</p>
-            <p class="member-role">${roleName}</p>
+        filteredMembers.sort((a, b) => a.name.localeCompare(b.name)).forEach((member, index) => {
+            const memberElement = document.createElement("div");
+            memberElement.className = "member";
+            const roleName = member.division.length > 1 
+                ? `${member.division.join(' / ')} ATHLETE`
+                : `${member.division[0]} ATHLETE`;
+            memberElement.innerHTML = `
+                <img src="${member.image}" alt="${member.name}">
+                <p class="member-name">${member.name}</p>
+                <p class="member-role">${roleName}</p>
             `;
             memberElement.querySelector('img').addEventListener('click', () => openModal(member.name.toLowerCase().replace(/[^a-z0-9]/g, '')));
             grid.appendChild(memberElement);
-            
-            // Fade in new members with delay
-            setTimeout(() => {
-                memberElement.classList.remove('fade-out');
-                memberElement.classList.add('fade-in');
-            }, index * 100);
         });
+
+        // Fade in new content
+        headerImage.style.opacity = 1;
+        gameDescription.style.opacity = 1;
+        gamePlatform.style.opacity = 1;
+        grid.style.opacity = 1;
     }, 300);
 }
+
 function openModal(memberId) {
     const modal = document.getElementById('memberModal');
     const member = memberData[memberId];
