@@ -319,7 +319,7 @@ h1 {
 
     .members-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 20px;
         padding: 10px;
     }
 
@@ -328,18 +328,18 @@ h1 {
     }
 
     .member img {
-        width: 100%; /* 画像の幅を親要素に合わせる */
-        height: auto; /* 高さを自動調整 */
-        max-width: 120px; /* 最大幅を設定 */
-        max-height: 120px; /* 最大高さを設定 */
-        margin: 0 auto; /* 中央揃え */
-        display: block; /* ブロック要素として表示 */
+        width: 120px;
+        height: 120px;
     }
 
-    .member-name, .member-role {
-        font-size: 14px; /* フォントサイズを小さく */
-        margin: 5px 0; /* マージンを調整 */
+    .member-name {
+        font-size: 14px;
     }
+
+    .member-role {
+        font-size: 13px;
+    }
+}
 
     .modal-content {
         width: 90%;
@@ -353,16 +353,14 @@ h1 {
 }
 
 
-        .members-grid {
+.members-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 60px;
+    gap: 30px;
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
     justify-content: center;
-    padding-left: 10%; /* 左側に余白を追加 */
-    padding-right: 10%;
 }
 
 .member {
