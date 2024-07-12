@@ -284,17 +284,17 @@ h1 {
             opacity: 0;
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        .nt-bg::before {
-            background-image: url('valo.jpg');
+        .valorant-bg::before {
+            background-image: url('valo.webp');
         }
         .apex-bg::before {
-            background-image: url('apex.jpg');
+            background-image: url('apex.webp');
         }
         .fortnite-bg::before {
-            background-image: url('fortnite.jpg');
+            background-image: url('fortnite.webp');
         }
         .rocket-league-bg::before {
-            background-image: url('rocketleague.jpg');
+            background-image: url('rocketleague.webp');
         }
         .game-info {
             margin-bottom: 30px;
@@ -403,10 +403,18 @@ h1 {
     background-color: darken(var(--accent-color), 10%);
     transform: translateY(-2px);
 }
-
+.sentence{
+    line-height: 30px;
+    width: 65%;
+    overflow-wrap:break-word;
+}
 @media (max-width: 768px) {
     .contact-info {
         padding: 0 20px;
+    }
+    .sentence{
+        text-align: left;
+        overflow-wrap:break-word;
     }
 }
 .centered {
@@ -520,6 +528,7 @@ h1 {
     .news-content.dark h2{
     text-align: center;
 }
+
 .news-content.dark{
     padding-top: 400px;
 }
@@ -877,16 +886,8 @@ h1 {
 .mobile-close span:last-child {
     transform: translate(-50%, -50%) rotate(-45deg);
 }
-.sentence{
-    line-height: 30px;
-    width: 65%;
-    overflow-wrap:break-word;
-}
+
 @media (max-width: 768px) {
-    .sentence{
-        text-align: left;
-        overflow-wrap:break-word;
-    }
     .desktop-close {
         display: none;
     }
@@ -1031,16 +1032,16 @@ h1 {
         <div class="container desktop-nav">
             <nav>
                 <div class="nav-links left">
-                   <a href="#news">NEWS</a>
-                    <a href="#games">MEMBERS</a>
-                    <a href="#about">ABOUT</a>
+                    <a href="index_news.html">NEWS</a>
+                    <a href="index_members.html">MEMBERS</a>
+                    <a href="index_about.html">ABOUT</a>
                 </div>
                 <a href="index.html" id="logo" class="logo">
                     <img src="logo.PNG" alt="Where Wear" width="auto" height="40">
                 </a>
                 <div class="nav-links right">
-                   <a href="#partners">PARTNERS</a>
-                    <a href="#contact">CONTACT</a>
+                    <a href="index_partners.html">PARTNERS</a>
+                    <a href="index.html#contact">CONTACT</a>
                     <a href="index_store.html">STORE</a>
                 </div>
             </nav>
@@ -1057,11 +1058,11 @@ h1 {
         </div>
         <div class="mobile-menu">
             <div class="mobile-menu-items">
-                <a href="#news">NEWS</a>
-                <a href="#games">MEMBERS</a>
-                <a href="#about">ABOUT</a>
-                <a href="#partners">PARTNERS</a>
-                <a href="#contact">CONTACT</a>
+                <a href="index_news.html">NEWS</a>
+                <a href="index_members.html">MEMBERS</a>
+                <a href="index_about.html">ABOUT</a>
+                <a href="index_partners.html">PARTNERS</a>
+                <a href="index.html#contact">CONTACT</a>
                 <a href="index_store.html">STORE</a>
             </div>
         </div>
@@ -1107,9 +1108,10 @@ h1 {
             <div class="news-content">
                 <h2>Where Wear is</h2>
                 <p class="sentence">
-                    Where wear is an esports team
+                    Where wear is an e-sports team
                     that was launched on November 2, 2020,
-                    the day the clan function of Apex Legends was implemented.
+                    the day the clan function of 
+                    Apex Legends was implemented.
                     Combining "Where" meaning "where you are"
                     and "Wear" meaning "to wear,"
                     it may mean that it doesn't matter
@@ -1119,7 +1121,6 @@ h1 {
                 <a href="index_about.html" class="more-btn">ABOUT</a>
             </div>
         </section>
-
 
         <section id="partners" class="section">
             <div class="container">
