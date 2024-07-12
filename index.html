@@ -1174,6 +1174,14 @@ h1 {
                     <div class="commentbox"></div>
 <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
 <script>commentBox('5644201232433152-proj')</script>
+<script>
+    window.addEventListener('load', function() {
+        var commentBoxIframe = document.querySelector('.commentbox iframe');
+        if (commentBoxIframe) {
+            commentBoxIframe.title = "Comment Box";
+        }
+    });
+</script>
         </div>
             </div>
         </div>
