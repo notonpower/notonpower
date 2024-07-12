@@ -338,7 +338,6 @@ h1 {
 }
 
 .members-grid {
-    padding-left:30px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
@@ -352,6 +351,7 @@ h1 {
         width: auto; /* モバイルでは幅を自動に */
     }
 .members-grid .member img {
+    padding-left:30px;
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -452,10 +452,10 @@ h1 {
 @media (max-width: 480px) {
     .members-grid {
         gap: 15px;
-        padding-left: 15px;
     }
 
     .members-grid .member img {
+          padding-left: 15px;
         width: 120px;
         height: 120px;
     }
