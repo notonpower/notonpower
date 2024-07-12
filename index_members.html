@@ -465,6 +465,46 @@ h1 {
     background-color: darken(var(--accent-color), 10%);
     transform: translateY(-2px);
 }
+@media (max-width: 1024px) {
+    .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .members-grid .member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .members-grid .member-name {
+        font-size: 16px;
+    }
+
+    .members-grid .member-role {
+        font-size: 14px;
+    }
+}
+
+/* 小さなスマートフォン用のスタイル */
+@media (max-width: 480px) {
+    .members-grid {
+        gap: 15px;
+    }
+
+    .members-grid .member img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .members-grid .member-name {
+        font-size: 14px;
+    }
+
+    .members-grid .member-role {
+        font-size: 13px;
+    }
+}
 
 @media (max-width: 768px) {
     .contact-info {
