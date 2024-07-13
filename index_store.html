@@ -30,6 +30,26 @@
   border-radius: 4px;
 }
 
+/* エクスプレスチェックアウト（デジタル決済）のロゴサイズを大きくする */
+.payment-option[data-payment-type="digital-payment"] .card-logo {
+    height: 32px; /* または希望のサイズ */
+    width: auto;
+}
+
+/* エクスプレスチェックアウトのカードブランドコンテナのスタイルを調整 */
+.payment-option[data-payment-type="digital-payment"] .card-brands {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* エクスプレスチェックアウトの各ブランドのスタイルを調整 */
+.payment-option[data-payment-type="digital-payment"] .digital-payment-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .form-group label {
   position: absolute;
   top: 10px;
