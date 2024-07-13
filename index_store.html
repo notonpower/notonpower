@@ -1226,7 +1226,7 @@ header h1 a:hover {
           <form class="checkout-form" onsubmit="event.preventDefault(); handleSubmit();">
   <h3 class="section-title">配達</h3>
   <div class="form-group">
-    <input type="text" name="lastname" id="lastname" placeholder="姓"required>>
+    <input type="text" name="lastname" id="lastname" placeholder="姓"required>
   </div>
   <div class="form-group">
     <input type="text" name="firstname" id="firstname" placeholder="名"required>
@@ -1455,13 +1455,24 @@ function selectPayment(paymentType) {
     }
     
     togglePaymentFields(paymentType);
-    
-    // デジタル決済以外の場合はボタンを有効化
-    document.getElementById('order-button').disabled = (paymentType === 'digital-payment');
 }
 function selectDigitalPayment(radio) {
     selectPayment('digital-payment');
     document.getElementById('order-button').disabled = false;
+}
+
+function togglePaymentFields(paymentType) {
+    const creditCardFields = document.getElementById("credit-card-fields");
+    const digitalPaymentFields = document.getElementById("digital-payment-fields");
+
+    creditCardFields.style.display = "none";
+    digitalPaymentFields.style.display = "none";
+
+    if (paymentType === "credit-card") {
+        creditCardFields.style.display = "block";
+    } else if (paymentType === "digital-payment") {
+        digitalPaymentFields.style.display = "block";
+    }
 }
         function updateCart() {
     const cartItems = document.getElementById("cart-items");
@@ -1484,6 +1495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function() {
             const paymentType = this.getAttribute('data-payment-type');
             selectPayment(paymentType);
+            togglePaymentFields(paymentType);
         });
     });
 
