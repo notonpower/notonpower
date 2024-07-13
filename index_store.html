@@ -327,7 +327,29 @@ display: flex;
     display: flex;
     align-items: center;
 }
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
 
+#pay-now-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+#pay-now-button:hover {
+  background-color: #333333;
+}
 .form-group.checkbox input {
     width: auto;
     margin-right: 10px;
@@ -1363,7 +1385,9 @@ header h1 a:hover {
     <label for="billing-address">配送先住所を請求先住所として使用する</label>
   </div>
 </div>
-               <button type="submit" class="submit-btn btn-primary btn-large">今すぐ支払う</button>
+            <div class="button-container">
+  <button type="submit" id="pay-now-button">今すぐ支払う</button>
+</div>
             </form>
         </div>
         <div id="complete-page" class="page">
