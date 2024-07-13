@@ -1197,34 +1197,36 @@ header h1 a:hover {
   margin-bottom: 15px;
 }
 .coupon-code {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 10px;  /* ボタンとフォームの間隔 */
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
 }
 
 .coupon-input-container {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 #coupon-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 40px;  /* ボタンの高さに合わせる */
-  box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    box-sizing: border-box;
 }
 
 #apply-coupon {
-  padding: 10px 15px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  height: 40px;  /* フォームの高さに合わせる */
-  line-height: 20px;  /* テキストを縦中央に */
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    line-height: 20px;
+    white-space: nowrap;
+    min-width: 80px;
 }
 
 #apply-coupon:hover {
@@ -1234,6 +1236,18 @@ header h1 a:hover {
 .coupon-error {
   margin-top: 5px;
   font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .coupon-code {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #apply-coupon {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
 
 .order-totals > div {
@@ -1664,14 +1678,38 @@ function togglePaymentFields(paymentType) {
     const cartItems = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
     const cartCount = document.getElementById("cart-count");
+    const orderSummary = document.getElementById("order-summary");
+    
     cartItems.innerHTML = "";
+    orderSummary.innerHTML = "<h3>注文確認</h3>";
     let total = 0;
+    
     cart.forEach(item => {
         cartItems.innerHTML += `<p>${item.name} - ${item.price.toLocaleString()}円</p>`;
+        
+        orderSummary.innerHTML += `
+            <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" class="order-item-image">
+                <div class="order-item-details">
+                    <h4>${item.name}</h4>
+                    <p class="order-item-price">¥${item.price.toLocaleString()}</p>
+                </div>
+            </div>
+        `;
+        
         total += item.price;
     });
+    
     cartTotal.textContent = total.toLocaleString();
     cartCount.textContent = cart.length;
+    
+    orderSummary.innerHTML += `
+        <div class="order-total">
+            <h3>小計</h3>
+            <p>¥${total.toLocaleString()}円</p>
+        </div>
+    `;
+    
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 document.addEventListener('DOMContentLoaded', function() {
