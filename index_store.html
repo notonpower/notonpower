@@ -1455,6 +1455,10 @@ function selectPayment(paymentType) {
     }
     
     togglePaymentFields(paymentType);
+
+    // デバッグ用のログ
+    console.log('Selected payment type:', paymentType);
+    console.log('Credit card fields display:', document.getElementById("credit-card-fields").style.display);
 }
 function selectDigitalPayment(radio) {
     selectPayment('digital-payment');
@@ -1466,11 +1470,13 @@ function togglePaymentFields(paymentType) {
     const digitalPaymentFields = document.getElementById("digital-payment-fields");
 
     creditCardFields.style.display = "none";
-    digitalPaymentFields.style.display = "none";
+    if (digitalPaymentFields) {
+        digitalPaymentFields.style.display = "none";
+    }
 
     if (paymentType === "credit-card") {
         creditCardFields.style.display = "block";
-    } else if (paymentType === "digital-payment") {
+    } else if (paymentType === "digital-payment" && digitalPaymentFields) {
         digitalPaymentFields.style.display = "block";
     }
 }
@@ -1488,14 +1494,12 @@ function togglePaymentFields(paymentType) {
     cartCount.textContent = cart.length;
 }
 document.addEventListener('DOMContentLoaded', function() {
-    displayProducts();
-    setupProductObservers();
+    // ... 他のコード ...
     const paymentOptions = document.querySelectorAll('.payment-option');
     paymentOptions.forEach(option => {
         option.addEventListener('click', function() {
             const paymentType = this.getAttribute('data-payment-type');
             selectPayment(paymentType);
-            togglePaymentFields(paymentType);
         });
     });
 
@@ -1553,25 +1557,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', updateHeaderBackground);
     updateHeaderBackground();
 });
-        function togglePaymentFields(paymentType) {
-    const creditCardFields = document.getElementById("credit-card-fields");
-    const digitalPaymentFields = document.getElementById("digital-payment-fields");
-    const creditCardBrands = document.getElementById("credit-card-brands");
-    const digitalPaymentBrands = document.getElementById("digital-payment-brands");
-
-    creditCardFields.style.display = "none";
-    digitalPaymentFields.style.display = "none";
-    creditCardBrands.style.display = "none";
-    digitalPaymentBrands.style.display = "none";
-
-    if (paymentType === "credit-card") {
-        creditCardFields.style.display = "block";
-        creditCardBrands.style.display = "flex";
-    } else if (paymentType === "digital-payment") {
-        digitalPaymentFields.style.display = "block";
-        digitalPaymentBrands.style.display = "flex";
-    }
-}
 // イベントリスナーの追加
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('form.checkout-form').addEventListener('submit', handleSubmit);
