@@ -1507,6 +1507,14 @@ header h1 a:hover {
     <div class="loading" id="loading"></div>
 
     <script>
+    function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    updateCart();
+    showAddToCartNotification(product);
+    updateOrderSummary();
+}
+    
         function toggleCreditCardFields(show) {
     const creditCardFields = document.getElementById("credit-card-fields");
     creditCardFields.style.display = show ? "block" : "none";
@@ -1528,8 +1536,16 @@ const products = [
     { id: 12, name: "WHERE WEAR GLASS", price: 2000, image: "glass.jpg" }
 ];
 
-        let cart = [];
-        
+    let cart = [];
+document.addEventListener('DOMContentLoaded', function() {
+    // カートの状態を復元（必要に応じて）
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCart();
+    }
+    // ... 他の初期化コード
+});
 
         function displayProducts() {
     const productsDiv = document.getElementById("products");
@@ -1559,12 +1575,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-        function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    cart.push(product);
-    updateCart();
-    showAddToCartNotification(product);
-}
+      
 function toggleCartDetails() {
     const cartDetails = document.getElementById("cart-details");
     cartDetails.style.display = cartDetails.style.display === "none" ? "block" : "none";
@@ -1616,6 +1627,7 @@ function togglePaymentFields(paymentType) {
     });
     cartTotal.textContent = total.toLocaleString();
     cartCount.textContent = cart.length;
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 document.addEventListener('DOMContentLoaded', function() {
     // ... 他のコード ...
@@ -2191,15 +2203,13 @@ document.getElementById('apply-coupon').addEventListener('click', function() {
 });
 
 // カートに商品を追加するたびに updateOrderSummary を呼び出す
-function addToCart(productId) {
-  // 既存のコード
-  // ...
-  
-  updateOrderSummary();
-}
 
-// 初期表示時にも呼び出す
-updateOrderSummary();
+
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    updateOrderSummary();
+    // その他の初期化コード
+});
     </script>
     <div id="notification-container">
         <div id="add-to-cart-notification" class="notification"></div>
