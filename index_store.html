@@ -853,6 +853,38 @@ display: flex;
     margin-left: 15px;
     margin-bottom: 10px;
 }
+/* 追加: セキュリティメッセージのスタイル */
+.security-note {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* 追加: 支払いオプションのスタイル */
+.payment-option {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 追加: 支払いオプションヘッダーのスタイル */
+.payment-option-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* 追加: クレジットカードフィールドのスタイル */
+#credit-card-fields {
+  display: none;
+  margin-top: 1rem;
+}
+
+#credit-card-fields.active {
+  display: block;
+}
+
 .payment-logos {
     display: flex;
     justify-content: flex-end;
@@ -1512,67 +1544,66 @@ header h1 a:hover {
                 <!-- 支払い方法の選択（既存のコード） -->
 <section class="checkout-section">
   <h3 class="section-title">支払い</h3>
-  <div class="payment-methods">
-    <!-- 「支払い方法を選択してください」という文言を削除 -->
-    <div class="payment-options">
-      <div class="payment-option" data-payment-type="credit-card">
-        <div class="payment-option-header">
-          <span class="payment-option-radio"></span>
-          <span class="payment-option-label">クレジットカード</span>
+  <p class="security-note">すべての取引は安全で、暗号化されています。</p>
+  
+  <div class="payment-options">
+    <div class="payment-option" data-payment-type="credit-card">
+      <div class="payment-option-header">
+        <input type="radio" name="payment-method" id="credit-card" value="credit-card">
+        <label for="credit-card">クレジットカード</label>
+      </div>
+      <div class="card-brands" id="credit-card-brands">
+        <img src="visa.svg" alt="Visa" class="card-logo">
+        <img src="mastercard.svg" alt="Mastercard" class="card-logo">
+        <img src="jcb.svg" alt="JCB" class="card-logo">
+        <img src="american-express.svg" alt="American Express" class="card-logo">
+      </div>
+      <div id="credit-card-fields" class="payment-fields">
+        <div class="form-group">
+          <input type="text" id="card-number" name="card-number" placeholder="カード番号" required>
         </div>
-        <div class="card-brands" id="credit-card-brands">
-          <img src="visa.svg" alt="Visa" class="card-logo">
-                                <img src="mastercard.svg" alt="Mastercard" class="card-logo">
-                                <img src="jcb.svg" alt="JCB" class="card-logo">
-                                <img src="american-express.svg" alt="American Express" class="card-logo">
-                            </div>
-                        </div>
-                        <div class="payment-option" data-payment-type="digital-payment">
-                            <div class="payment-option-header">
-                                <span class="payment-option-radio"></span>
-                                <span class="payment-option-label">エクスプレスチェックアウト</span>
-                            </div>
-                            <div class="card-brands" id="digital-payment-brands">
-                                <label class="digital-payment-brand">
-                                    <input type="radio" name="digital-payment" value="apple-pay" onchange="selectDigitalPayment(this)">
-                                    <img src="apple-pay.svg" alt="Apple Pay" class="card-logo">
-                                </label>
-                                <label class="digital-payment-brand">
-                                    <input type="radio" name="digital-payment" value="google-pay" onchange="selectDigitalPayment(this)">
-                                    <img src="google-pay.svg" alt="Google Pay" class="card-logo">
-                                </label>
-                                <label class="digital-payment-brand">
-                                    <input type="radio" name="digital-payment" value="paypal" onchange="selectDigitalPayment(this)">
-                                    <img src="paypal.svg" alt="PayPal" class="card-logo">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="payment-option" data-payment-type="cash-on-delivery">
-                            <div class="payment-option-header">
-                                <span class="payment-option-radio"></span>
-                                <span class="payment-option-label">代金引換</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               <div id="credit-card-fields" class="payment-fields">
-  <div class="form-group">
-    <input type="text" id="card-number" name="card-number" placeholder="カード番号" required>
+        <div class="form-group">
+          <input type="text" id="expiry-date" name="expiry-date" placeholder="有効期限（月/年）" required>
+        </div>
+        <div class="form-group">
+          <input type="text" id="security-code" name="security-code" placeholder="セキュリティーコード" required>
+        </div>
+        <div class="form-group">
+          <input type="text" id="card-holder" name="card-holder" placeholder="カードの名義人" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-option" data-payment-type="digital-payment">
+      <div class="payment-option-header">
+        <input type="radio" name="payment-method" id="digital-payment" value="digital-payment">
+        <label for="digital-payment">エクスプレスチェックアウト</label>
+      </div>
+      <div class="card-brands" id="digital-payment-brands">
+        <label class="digital-payment-brand">
+          <input type="radio" name="digital-payment" value="apple-pay" onchange="selectDigitalPayment(this)">
+          <img src="apple-pay.svg" alt="Apple Pay" class="card-logo">
+        </label>
+        <label class="digital-payment-brand">
+          <input type="radio" name="digital-payment" value="google-pay" onchange="selectDigitalPayment(this)">
+          <img src="google-pay.svg" alt="Google Pay" class="card-logo">
+        </label>
+        <label class="digital-payment-brand">
+          <input type="radio" name="digital-payment" value="paypal" onchange="selectDigitalPayment(this)">
+          <img src="paypal.svg" alt="PayPal" class="card-logo">
+        </label>
+      </div>
+    </div>
+
+    <div class="payment-option" data-payment-type="cash-on-delivery">
+      <div class="payment-option-header">
+        <input type="radio" name="payment-method" id="cash-on-delivery" value="cash-on-delivery">
+        <label for="cash-on-delivery">代金引換</label>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <input type="text" id="expiry-date" name="expiry-date" placeholder="有効期限（月/年）" required>
-  </div>
-  <div class="form-group">
-    <input type="text" id="security-code" name="security-code" placeholder="セキュリティーコード" required>
-  </div>
-  <div class="form-group">
-    <input type="text" id="card-holder" name="card-holder" placeholder="カードの名義人" required>
-  </div>
-  <div class="form-group checkbox">
-    <input type="checkbox" id="billing-address" name="billing-address">
-    <label for="billing-address">配送先住所を請求先住所として使用する</label>
-  </div>
-</div>
+</section>
+              
 <div class="order-summary">
   <h3 class="section-title">ご注文概要</h3>
   <div class="order-items">
@@ -1743,26 +1774,23 @@ function selectPayment(paymentType) {
 
     // デバッグ用のログ
     console.log('Selected payment type:', paymentType);
-    console.log('Credit card fields display:', document.getElementById("credit-card-fields").style.display);
+    console.log('Credit card fields display:', creditCardFields.classList.contains('active') ? 'block' : 'none');
 }
 function selectDigitalPayment(radio) {
-    selectPayment('digital-payment');
-    document.getElementById('order-button').disabled = false;
+    const digitalPaymentOption = document.querySelector('input[value="digital-payment"]');
+    if (digitalPaymentOption) {
+        digitalPaymentOption.checked = true;
+        selectPayment('digital-payment');
+    }
 }
 
 function togglePaymentFields(paymentType) {
     const creditCardFields = document.getElementById("credit-card-fields");
-    const digitalPaymentFields = document.getElementById("digital-payment-fields");
-
-    creditCardFields.style.display = "none";
-    if (digitalPaymentFields) {
-        digitalPaymentFields.style.display = "none";
-    }
 
     if (paymentType === "credit-card") {
-        creditCardFields.style.display = "block";
-    } else if (paymentType === "digital-payment" && digitalPaymentFields) {
-        digitalPaymentFields.style.display = "block";
+        creditCardFields.classList.add('active');
+    } else {
+        creditCardFields.classList.remove('active');
     }
 }
 function updateCart(keepOpen = false) {
@@ -1837,12 +1865,12 @@ function toggleCartDetails() {
 // チェックアウトボタンのイベントリスナー
 document.getElementById('checkout-button').addEventListener('click', showCheckout);
 document.addEventListener('DOMContentLoaded', function() {
-    // ... 他のコード ...
-    const paymentOptions = document.querySelectorAll('.payment-option');
+    const paymentOptions = document.querySelectorAll('input[name="payment-method"]');
+    const creditCardFields = document.getElementById('credit-card-fields');
+
     paymentOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const paymentType = this.getAttribute('data-payment-type');
-            selectPayment(paymentType);
+        option.addEventListener('change', function() {
+            selectPayment(this.value);
         });
     });
 
@@ -1858,6 +1886,12 @@ document.addEventListener('DOMContentLoaded', function() {
         orderButton.addEventListener('click', handleSubmit);
     } else {
         console.error('注文ボタンが見つかりません');
+    }
+
+    // 初期状態でクレジットカードが選択されている場合、フィールドを表示
+    const initialPaymentMethod = document.querySelector('input[name="payment-method"]:checked');
+    if (initialPaymentMethod && initialPaymentMethod.value === 'credit-card') {
+        creditCardFields.classList.add('active');
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
