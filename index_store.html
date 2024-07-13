@@ -1583,12 +1583,11 @@ header h1 a:hover {
     });
 });
     
-    function addToCart(productId) {
+ function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     cart.push(product);
     updateCart();
     showAddToCartNotification(product);
-    updateOrderSummary();
 }
     document.getElementById('apply-coupon').addEventListener('click', function() {
   const couponInput = document.getElementById('coupon-input');
@@ -1720,42 +1719,25 @@ function togglePaymentFields(paymentType) {
     const cartItems = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
     const cartCount = document.getElementById("cart-count");
-    const orderSummary = document.getElementById("order-summary");
     
     cartItems.innerHTML = "";
-    orderSummary.innerHTML = "<h3 class='section-title'>注文確認</h3>";
     let total = 0;
     
-    cart.forEach(item => {
-        cartItems.innerHTML += `<p>${item.name} - ${item.price.toLocaleString()}円</p>`;
-        
-        orderSummary.innerHTML += `
-            <div class="order-item" data-index="${index}">
-                <img src="${item.image}" alt="${item.name}" class="order-item-image">
-                <div class="order-item-details">
-                    <h4>${item.name}</h4>
-                    <p class="order-item-price">
-                        ¥${item.price.toLocaleString()}
-                        <span class="remove-item-btn">×</span>
-                    </p>
-                </div>
+    cart.forEach((item, index) => {
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <p>${item.name} - ¥${item.price.toLocaleString()}</p>
+                <button class="remove-item-btn" data-index="${index}">×</button>
             </div>
         `;
-        
         total += item.price;
     });
     
     cartTotal.textContent = total.toLocaleString();
     cartCount.textContent = cart.length;
     
-  orderSummary.innerHTML += `
-    <div class="order-total">
-        <h3>小計</h3>
-        <p>¥${total.toLocaleString()}</p>
-    </div>
-`;
-      updateOrderSummary();
     localStorage.setItem('cart', JSON.stringify(cart));
+    updateOrderSummary();
 }
 document.addEventListener('DOMContentLoaded', function() {
     // ... 他のコード ...
@@ -2255,51 +2237,41 @@ function resetStore() {
 });
 let discountPercentage = 0;
 function updateOrderSummary() {
-  const orderItems = document.querySelector('.order-items');
-  const subtotalAmount = document.getElementById('subtotal-amount');
-  const shippingAmount = document.getElementById('shipping-amount');
-  const totalAmount = document.getElementById('total-amount');
-  const taxNote = document.querySelector('.tax-note');
-  
-  orderItems.innerHTML = '';
-  let subtotal = 0;
-  
-  cart.forEach((item, index) => {
-    orderItems.innerHTML += `
-      <div class="order-item">
-        <img src="${item.image}" alt="${item.name}" class="order-item-image">
-        <div class="order-item-details">
-          <h4>${item.name}</h4>
-          <p class="order-item-price">¥${item.price.toLocaleString()}</p>
-        </div>
-        <button class="remove-item-btn" data-index="${index}">×</button>
-      </div>
-    `;
-    subtotal += item.price;
-  });
-  
-  const shipping = 400; // 固定の配送料
-  const taxRate = 0.1; // 10%の税率
-  const tax = Math.floor(subtotal * taxRate); // 税金（小数点以下切り捨て）
-  const discount = subtotal * (discountPercentage / 100);
-  const total = subtotal - discount + shipping;
-  
-  subtotalAmount.textContent = `¥${subtotal.toLocaleString()}`;
-  shippingAmount.textContent = `¥${shipping.toLocaleString()}`;
-  
-  if (discountPercentage > 0) {
-    const discountElement = document.createElement('div');
-    discountElement.innerHTML = `
-      <span>割引 (${discountPercentage}%)</span>
-      <span>-¥${discount.toLocaleString()}</span>
-    `;
-    document.querySelector('.order-totals').insertBefore(discountElement, document.querySelector('.total'));
-  }
-  
-  totalAmount.textContent = `¥${total.toLocaleString()}`;
-  
-  // 税金の表示を更新
-  taxNote.textContent = `¥${tax.toLocaleString()}の税金を含む`;
+    const orderItems = document.querySelector('.order-items');
+    const subtotalAmount = document.getElementById('subtotal-amount');
+    const shippingAmount = document.getElementById('shipping-amount');
+    const totalAmount = document.getElementById('total-amount');
+    const taxNote = document.querySelector('.tax-note');
+    
+    if (!orderItems) return; // チェックアウトページでない場合は処理を中断
+    
+    orderItems.innerHTML = '';
+    let subtotal = 0;
+    
+    cart.forEach((item, index) => {
+        orderItems.innerHTML += `
+            <div class="order-item">
+                <img src="${item.image}" alt="${item.name}" class="order-item-image">
+                <div class="order-item-details">
+                    <h4>${item.name}</h4>
+                    <p class="order-item-price">¥${item.price.toLocaleString()}</p>
+                </div>
+                <button class="remove-item-btn" data-index="${index}">×</button>
+            </div>
+        `;
+        subtotal += item.price;
+    });
+    
+    const shipping = 400;
+    const taxRate = 0.1;
+    const tax = Math.floor(subtotal * taxRate);
+    const discount = subtotal * (discountPercentage / 100);
+    const total = subtotal - discount + shipping;
+    
+    subtotalAmount.textContent = `¥${subtotal.toLocaleString()}`;
+    shippingAmount.textContent = `¥${shipping.toLocaleString()}`;
+    totalAmount.textContent = `¥${total.toLocaleString()}`;
+    taxNote.textContent = `¥${tax.toLocaleString()}の税金を含む`;
 }
 // カートに商品を追加するたびに updateOrderSummary を呼び出す
 
