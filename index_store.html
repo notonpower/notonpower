@@ -1229,6 +1229,7 @@ header h1 a:hover {
     min-width: 80px;
 }
 
+
 #apply-coupon:hover {
   background-color: var(--secondary-color);
 }
@@ -1238,7 +1239,7 @@ header h1 a:hover {
   font-size: 0.9em;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     .coupon-code {
         flex-direction: column;
         align-items: stretch;
@@ -1681,7 +1682,7 @@ function togglePaymentFields(paymentType) {
     const orderSummary = document.getElementById("order-summary");
     
     cartItems.innerHTML = "";
-    orderSummary.innerHTML = "<h3>注文確認</h3>";
+    orderSummary.innerHTML = "<h3 class='section-title'>注文確認</h3>";
     let total = 0;
     
     cart.forEach(item => {
@@ -1703,12 +1704,12 @@ function togglePaymentFields(paymentType) {
     cartTotal.textContent = total.toLocaleString();
     cartCount.textContent = cart.length;
     
-    orderSummary.innerHTML += `
-        <div class="order-total">
-            <h3>小計</h3>
-            <p>¥${total.toLocaleString()}円</p>
-        </div>
-    `;
+  orderSummary.innerHTML += `
+    <div class="order-total">
+        <h3>小計</h3>
+        <p>¥${total.toLocaleString()}</p>
+    </div>
+`;
     
     localStorage.setItem('cart', JSON.stringify(cart));
 }
