@@ -1518,7 +1518,7 @@ header h1 a:hover {
       <span id="total-amount"></span>
     </div>
   </div>
-  <p class="tax-note">¥500の税金を含む</p>
+ <p class="tax-note"></p>
 </div>
             <div class="button-container">
   <button type="submit" id="pay-now-button">今すぐ支払う</button>
@@ -1710,7 +1710,7 @@ function togglePaymentFields(paymentType) {
         <p>¥${total.toLocaleString()}</p>
     </div>
 `;
-    
+      updateOrderSummary();
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -2198,6 +2198,7 @@ function updateOrderSummary() {
   const subtotalAmount = document.getElementById('subtotal-amount');
   const shippingAmount = document.getElementById('shipping-amount');
   const totalAmount = document.getElementById('total-amount');
+  const taxNote = document.querySelector('.tax-note');
   
   orderItems.innerHTML = '';
   let subtotal = 0;
@@ -2216,6 +2217,8 @@ function updateOrderSummary() {
   });
   
   const shipping = 400; // 固定の配送料
+  const taxRate = 0.1; // 10%の税率
+  const tax = Math.floor(subtotal * taxRate); // 税金（小数点以下切り捨て）
   const discount = subtotal * (discountPercentage / 100);
   const total = subtotal - discount + shipping;
   
@@ -2232,8 +2235,10 @@ function updateOrderSummary() {
   }
   
   totalAmount.textContent = `¥${total.toLocaleString()}`;
+  
+  // 税金の表示を更新
+  taxNote.textContent = `¥${tax.toLocaleString()}の税金を含む`;
 }
-
 // カートに商品を追加するたびに updateOrderSummary を呼び出す
 
 
