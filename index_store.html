@@ -515,6 +515,72 @@ display: flex;
             transform: scale(1.05);
         }
 
+
+        .express-checkout-section {
+  margin-bottom: 30px;
+}
+
+.express-checkout-title {
+  font-size: 0.9em;
+  color: #757575;
+  margin-bottom: 10px;
+}
+
+.express-checkout-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.express-checkout-button {
+  flex: 1;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.express-checkout-button:hover {
+  opacity: 0.8;
+}
+
+.express-checkout-button.shopify-pay {
+  background-color: #5a31f4;
+}
+
+.express-checkout-button.google-pay {
+  background-color: #000;
+}
+
+.express-checkout-logo {
+  height: 24px;
+  width: auto;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.divider-text {
+  padding: 0 10px;
+  color: #757575;
+  font-size: 0.9em;
+}
+
         .checkout-form {
     max-width: 600px;
     margin: 0 auto;
@@ -1504,7 +1570,22 @@ header h1 a:hover {
   <h3>小計: <span id="cart-total"></span>円</h3>
 </div>
           <form class="checkout-form" onsubmit="event.preventDefault(); handleSubmit();">
-  <h3 class="section-title">配達</h3>
+            <div class="express-checkout-section">
+                <h4 class="express-checkout-title">エクスプレスチェックアウト</h4>
+                <div class="express-checkout-buttons">
+                  <button class="express-checkout-button shopify-pay">
+                    <img src="shoppayex.svg" alt="Shop Pay" class="express-checkout-logo">
+                  </button>
+                  <button class="express-checkout-button google-pay">
+                    <img src="googlepayex.svg" alt="Google Pay" class="express-checkout-logo">
+                  </button>
+                </div>
+                <div class="divider">
+                  <span class="divider-text">または</span>
+                </div>
+              </div>
+            <div id="shipping-info-container">
+            <h3 class="section-title">配達</h3>
   <div class="form-group">
     <input type="text" name="lastname" id="lastname" placeholder="姓"required>
   </div>
@@ -1578,6 +1659,7 @@ header h1 a:hover {
  <div class="form-group">
     <input type="tel" id="phone" name="phone" placeholder="電話番号" required>
   </div>
+</div>
 </section>
                 <!-- 支払い方法の選択（既存のコード） -->
 <section class="checkout-section">
@@ -1609,31 +1691,6 @@ header h1 a:hover {
         <div class="form-group">
           <input type="text" id="card-holder" name="card-holder" placeholder="カードの名義人" required>
         </div>
-      </div>
-    </div>
-
-    <div class="payment-option" data-payment-type="digital-payment">
-      <div class="payment-option-header">
-        <input type="radio" name="payment-method" id="digital-payment" value="digital-payment">
-        <label for="digital-payment">エクスプレスチェックアウト</label>
-      </div>
-      <div class="card-brands" id="digital-payment-brands">
-        <label class="digital-payment-brand">
-          <input type="radio" name="digital-payment" value="apple-pay" onchange="selectDigitalPayment(this)">
-          <img src="apple-pay.svg" alt="Apple Pay" class="card-logo">
-        </label>
-        <label class="digital-payment-brand">
-          <input type="radio" name="digital-payment" value="google-pay" onchange="selectDigitalPayment(this)">
-          <img src="google-pay.svg" alt="Google Pay" class="card-logo">
-        </label>
-        <label class="digital-payment-brand">
-          <input type="radio" name="digital-payment" value="paypal" onchange="selectDigitalPayment(this)">
-          <img src="paypal.svg" alt="PayPal" class="card-logo">
-        </label>
-        <label class="digital-payment-brand">
-            <input type="radio" name="digital-payment" value="shoppay" onchange="selectDigitalPayment(this)">
-            <img src="shoppay.svg" alt="ShopPay" class="card-logo">
-          </label>
       </div>
     </div>
 
@@ -1817,11 +1874,30 @@ function selectPayment(paymentType) {
     }
     
     togglePaymentFields(paymentType);
+    toggleShippingInfo(paymentType);
 
     // デバッグ用のログ
     console.log('Selected payment type:', paymentType);
-    console.log('Credit card fields display:', creditCardFields.classList.contains('active') ? 'block' : 'none');
+    console.log('Credit card fields display:', document.getElementById("credit-card-fields").style.display);
 }
+
+function toggleShippingInfo(paymentType) {
+    const shippingInfoContainer = document.getElementById('shipping-info-container');
+    const shippingFields = shippingInfoContainer.querySelectorAll('input, select');
+    
+    if (paymentType === 'digital-payment') {
+        shippingInfoContainer.style.display = 'none';
+        shippingFields.forEach(field => {
+            field.required = false;
+        });
+    } else {
+        shippingInfoContainer.style.display = 'block';
+        shippingFields.forEach(field => {
+            field.required = true;
+        });
+    }
+}
+
 function selectDigitalPayment(radio) {
     const digitalPaymentOption = document.querySelector('input[value="digital-payment"]');
     if (digitalPaymentOption) {
@@ -1993,7 +2069,28 @@ function handleSubmit(event) {
         return;
     }
     
-    if (selectedPayment.getAttribute('data-payment-type') === 'digital-payment') {
+    const paymentType = selectedPayment.getAttribute('data-payment-type');
+    
+    if (paymentType !== 'digital-payment') {
+        // エクスプレスチェックアウト以外の場合、配送先情報のバリデーションを行う
+        const shippingFields = document.querySelectorAll('#shipping-info-container input[required], #shipping-info-container select[required]');
+        let isValid = true;
+        shippingFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('error');
+            } else {
+                field.classList.remove('error');
+            }
+        });
+        
+        if (!isValid) {
+            alert('配送先情報を入力してください。');
+            return;
+        }
+    }
+    
+    if (paymentType === 'digital-payment') {
         const selectedDigitalPayment = document.querySelector('input[name="digital-payment"]:checked');
         if (!selectedDigitalPayment) {
             alert('エクスプレスチェックアウトのブランドを選択してください。');
@@ -2165,6 +2262,30 @@ document.addEventListener('DOMContentLoaded', function() {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const expressCheckoutButtons = document.querySelectorAll('.express-checkout-button');
+  
+  expressCheckoutButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const paymentMethod = this.classList.contains('shopify-pay') ? 'Shop Pay' : 'Google Pay';
+      handleExpressCheckout(paymentMethod);
+    });
+  });
+});
+
+function handleExpressCheckout(paymentMethod) {
+  // ここにエクスプレスチェックアウトの処理を実装
+  console.log(`${paymentMethod} でのエクスプレスチェックアウトが選択されました`);
+  // 例: 決済処理、注文確定など
+  showLoading();
+  setTimeout(() => {
+    hideLoading();
+    confirmOrder();
+  }, 2000);
+}
+
 // ホームページに戻る関数を更新
 function returnToHome(event) {
     event.preventDefault();
