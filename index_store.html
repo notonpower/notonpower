@@ -1151,13 +1151,18 @@ footer {
 
 #cart-count {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: -8px;
+    right: -8px;
+    background-color: black;
     color: white;
-    background-color: #004043;
     border-radius: 50%;
-    padding: 2px 5.67px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 12px;
+    font-weight: bold;
 }
 
 .cart-details {
@@ -1740,7 +1745,7 @@ document.addEventListener('DOMContentLoaded', function() {
     products.forEach((product, index) => {
         const productElement = document.createElement('div');
         productElement.className = 'product';
-        productElement.style.transitionDelay = `${index * 100}ms`;
+        productElement.style.transitionDelay = `${index * 10}ms`;
         productElement.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <div class="product-info">
