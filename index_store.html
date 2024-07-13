@@ -1342,7 +1342,7 @@ header h1 a:hover {
                         <div class="payment-option" data-payment-type="digital-payment">
                             <div class="payment-option-header">
                                 <span class="payment-option-radio"></span>
-                                <span class="payment-option-label">デジタル決済</span>
+                                <span class="payment-option-label">エクスプレスチェックアウト</span>
                             </div>
                             <div class="card-brands" id="digital-payment-brands">
                                 <label class="digital-payment-brand">
@@ -1596,7 +1596,7 @@ function handleSubmit(event) {
     if (selectedPayment.getAttribute('data-payment-type') === 'digital-payment') {
         const selectedDigitalPayment = document.querySelector('input[name="digital-payment"]:checked');
         if (!selectedDigitalPayment) {
-            alert('デジタル決済のブランドを選択してください。');
+            alert('エクスプレスチェックアウトのブランドを選択してください。');
             return;
         }
     }
