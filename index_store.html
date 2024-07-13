@@ -1186,6 +1186,78 @@ header h1 a:hover {
     color: var(--surface-color);
     cursor: pointer;
 }
+.order-summary {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.order-items {
+  margin-bottom: 15px;
+}
+
+.coupon-code {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.coupon-code input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 8px;
+}
+
+.coupon-code button {
+  padding: 8px 15px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-totals > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.tax-note {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+}
+.coupon-input-container {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+#coupon-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+#coupon-input.error {
+  border-color: #ff6b6b;
+}
+
+.coupon-error {
+  color: #ff6b6b;
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: none;
+}
     </style>
 </head>
 <body>
@@ -1384,6 +1456,34 @@ header h1 a:hover {
     <input type="checkbox" id="billing-address" name="billing-address">
     <label for="billing-address">配送先住所を請求先住所として使用する</label>
   </div>
+</div>
+<div class="order-summary">
+  <h3>ご注文概要</h3>
+  <div class="order-items">
+    <!-- 注文アイテムがここに動的に追加されます -->
+  </div>
+<div class="coupon-code">
+  <div class="coupon-input-container">
+    <input type="text" id="coupon-input" placeholder="クーポンコード">
+    <p id="coupon-error" class="coupon-error"></p>
+  </div>
+  <button id="apply-coupon">適用する</button>
+</div>
+  <div class="order-totals">
+    <div class="subtotal">
+      <span>小計</span>
+      <span id="subtotal-amount"></span>
+    </div>
+    <div class="shipping">
+      <span>配送</span>
+      <span id="shipping-amount"></span>
+    </div>
+    <div class="total">
+      <span>合計</span>
+      <span id="total-amount"></span>
+    </div>
+  </div>
+  <p class="tax-note">¥500の税金を含む</p>
 </div>
             <div class="button-container">
   <button type="submit" id="pay-now-button">今すぐ支払う</button>
@@ -2025,7 +2125,81 @@ function resetStore() {
         });
     });
 });
+let discountPercentage = 0;
 
+function updateOrderSummary() {
+  const orderItems = document.querySelector('.order-items');
+  const subtotalAmount = document.getElementById('subtotal-amount');
+  const shippingAmount = document.getElementById('shipping-amount');
+  const totalAmount = document.getElementById('total-amount');
+  
+  orderItems.innerHTML = '';
+  let subtotal = 0;
+  
+  cart.forEach(item => {
+    orderItems.innerHTML += `
+      <div class="order-item">
+        <span>${item.name}</span>
+        <span>¥${item.price.toLocaleString()}</span>
+      </div>
+    `;
+    subtotal += item.price;
+  });
+  
+  const shipping = 400; // 固定の配送料
+  const discount = subtotal * (discountPercentage / 100);
+  const total = subtotal - discount + shipping;
+  
+  subtotalAmount.textContent = `¥${subtotal.toLocaleString()}`;
+  shippingAmount.textContent = `¥${shipping.toLocaleString()}`;
+  
+  if (discountPercentage > 0) {
+    const discountElement = document.createElement('div');
+    discountElement.innerHTML = `
+      <span>割引 (${discountPercentage}%)</span>
+      <span>-¥${discount.toLocaleString()}</span>
+    `;
+    document.querySelector('.order-totals').insertBefore(discountElement, document.querySelector('.total'));
+  }
+  
+  totalAmount.textContent = `¥${total.toLocaleString()}`;
+}
+
+document.getElementById('apply-coupon').addEventListener('click', function() {
+  const couponInput = document.getElementById('coupon-input');
+  const couponError = document.getElementById('coupon-error');
+  const couponCode = couponInput.value.trim();
+  
+  if (couponCode === 'NOTONPOWER') {
+    discountPercentage = 50;
+    couponInput.style.borderColor = '';
+    couponError.style.display = 'none';
+    alert('50%割引のクーポンが適用されました！');
+    updateOrderSummary();
+  } else {
+    discountPercentage = 0;
+    couponInput.style.borderColor = '#ff6b6b';
+    couponError.textContent = '有効なクーポンコードを入力してください';
+    couponError.style.display = 'block';
+    
+    // スムーズなアニメーション効果
+    couponInput.style.transition = 'border-color 0.3s ease';
+    setTimeout(() => {
+      couponInput.style.borderColor = '';
+    }, 2000);
+  }
+});
+
+// カートに商品を追加するたびに updateOrderSummary を呼び出す
+function addToCart(productId) {
+  // 既存のコード
+  // ...
+  
+  updateOrderSummary();
+}
+
+// 初期表示時にも呼び出す
+updateOrderSummary();
     </script>
     <div id="notification-container">
         <div id="add-to-cart-notification" class="notification"></div>
