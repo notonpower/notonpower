@@ -13,6 +13,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where Wear Store</title>
     <style>
+  .section-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #999;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -20px;
+  left: 0;
+  font-size: 12px;
+  color: #333;
+}
+
+.order-totals {
+  margin-top: 20px;
+}
+
+.order-totals > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.order-totals .total {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.currency {
+  font-size: 0.8em;
+  color: #999;
+  margin-right: 5px;
+}
+
+#confirm-order {
+  width: 100%;
+  max-width: 400px;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
         :root {
             --primary-color: #000000;
             --secondary-color: #81D8D0;
@@ -1152,33 +1220,25 @@ header h1 a:hover {
         </div>
         <div id="checkout-page" class="page">
             <h2>注文確認</h2>
-            <div class="order-summary" id="order-summary"></div>
-            <form class="checkout-form" onsubmit="event.preventDefault(); handleSubmit();">
-                <div class="form-group">
-                    <input type="text" name="lastname" id="lastname" required>
-                    <label for="lastname">姓</label>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="firstname" id="firstname" required>
-                    <label for="firstname">名</label>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" id="email" required>
-                    <label for="email">メールアドレス</label>
-                </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" id="phone">
-                    <label for="phone">電話番号</label>
-                </div>
-                <div id="address-fields">
-                    <div class="form-group">
-                        <input type="text" name="postal-code" id="postal-code" required>
-                        <label for="postal-code">郵便番号</label>
-                    </div>
-                    <div class="form-group">
-                        <select name="prefecture" id="prefecture" required>
-                            <option value="" disabled selected>選択してください</option>
-                        <option value="">都道府県を選択</option>
+         <div id="order-summary" class="order-summary">
+  <h3>小計: <span id="cart-total"></span>円</h3>
+</div>
+          <form class="checkout-form" onsubmit="event.preventDefault(); handleSubmit();">
+  <h3 class="section-title">配達</h3>
+  <div class="form-group">
+    <input type="text" name="lastname" id="lastname" required>
+    <label for="lastname">姓</label>
+  </div>
+  <div class="form-group">
+    <input type="text" name="firstname" id="firstname" required>
+    <label for="firstname">名</label>
+  </div>
+                 <div class="form-group">
+    <input type="text" id="postal-code" name="postal-code" placeholder="郵便番号" required>
+  </div>
+  <div class="form-group">
+    <select id="prefecture" name="prefecture" required>
+      <option value="">都道府県を選択</option>
                         <option value="北海道">北海道</option>
                         <option value="青森県">青森県</option>
                         <option value="岩手県">岩手県</option>
@@ -1226,37 +1286,34 @@ header h1 a:hover {
                         <option value="宮崎県">宮崎県</option>
                         <option value="鹿児島県">鹿児島県</option>
                         <option value="沖縄県">沖縄県</option>
-                    </select>
-                    <label for="prefecture">都道府県</label>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="city" id="city" required>
-                    <label for="city">市区町村</label>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="address1" id="address1" required>
-                    <label for="address1">番地など</label>
-                </div>
-                <div class="form-group">
-                    <input type="text" name="address2" id="address2">
-                    <label for="address2">アパート名、部屋番号など</label>
-                </div>
-            </div>
-            <div class="form-group checkbox">
-                <input type="checkbox" name="skip-address" id="skip-address">
-                <label for="skip-address">住所は省略します</label>
-            </div>
+                      </select>
+  </div>
+  <div class="form-group">
+    <input type="text" id="city" name="city" placeholder="市区町村" required>
+  </div>
+  <div class="form-group">
+    <input type="text" id="address" name="address" placeholder="住所" required>
+  </div>
+  <div class="form-group">
+    <input type="text" id="building" name="building" placeholder="建物名、部屋番号など（任意）">
+  </div>
+ <div class="form-group">
+    <input type="tel" id="phone" name="phone" placeholder="電話番号" required>
+  </div>
+</section>
                 <!-- 支払い方法の選択（既存のコード） -->
-                <div class="payment-methods">
-                    <h3>支払い方法を選択してください</h3>
-                    <div class="payment-options">
-                        <div class="payment-option" data-payment-type="credit-card">
-                            <div class="payment-option-header">
-                                <span class="payment-option-radio"></span>
-                                <span class="payment-option-label">クレジットカード</span>
-                            </div>
-                            <div class="card-brands" id="credit-card-brands">
-                                <img src="visa.svg" alt="Visa" class="card-logo">
+<section class="checkout-section">
+  <h3 class="section-title">支払い</h3>
+  <div class="payment-methods">
+    <!-- 「支払い方法を選択してください」という文言を削除 -->
+    <div class="payment-options">
+      <div class="payment-option" data-payment-type="credit-card">
+        <div class="payment-option-header">
+          <span class="payment-option-radio"></span>
+          <span class="payment-option-label">クレジットカード</span>
+        </div>
+        <div class="card-brands" id="credit-card-brands">
+          <img src="visa.svg" alt="Visa" class="card-logo">
                                 <img src="mastercard.svg" alt="Mastercard" class="card-logo">
                                 <img src="jcb.svg" alt="JCB" class="card-logo">
                                 <img src="american-express.svg" alt="American Express" class="card-logo">
@@ -1290,19 +1347,25 @@ header h1 a:hover {
                         </div>
                     </div>
                 </div>
-                <div id="credit-card-fields" class="payment-fields">
-                    <input type="text" placeholder="カード番号">
-                    <input type="text" placeholder="有効期限 (MM/YY)">
-                    <input type="text" placeholder="カード名義人">
-                    <input type="text" placeholder="セキュリティコード">
-                </div>
-                <div id="digital-payment-fields" class="payment-fields">
-                    <p>デジタル決済サービスを選択してください。</p>
-                </div>
-                <div class="trademark-notice">
-                    各ロゴは各社の商標または登録商標です。
-                </div>
-                <button type="submit" class="submit-btn">注文を確定する</button>
+               <div id="credit-card-fields" class="payment-fields">
+  <div class="form-group">
+    <input type="text" id="card-number" name="card-number" placeholder="カード番号" required>
+  </div>
+  <div class="form-group">
+    <input type="text" id="expiry-date" name="expiry-date" placeholder="有効期限（月/年）" required>
+  </div>
+  <div class="form-group">
+    <input type="text" id="security-code" name="security-code" placeholder="セキュリティーコード" required>
+  </div>
+  <div class="form-group">
+    <input type="text" id="card-holder" name="card-holder" placeholder="カードの名義人" required>
+  </div>
+  <div class="form-group checkbox">
+    <input type="checkbox" id="billing-address" name="billing-address">
+    <label for="billing-address">配送先住所を請求先住所として使用する</label>
+  </div>
+</div>
+               <button type="submit" class="submit-btn btn-primary btn-large">今すぐ支払う</button>
             </form>
         </div>
         <div id="complete-page" class="page">
@@ -1683,7 +1746,35 @@ function showCheckout() {
         });
     }, 500); // CSSのトランジション時間と合わせる
 }
+document.addEventListener('DOMContentLoaded', function() {
+  const cardNumberInput = document.getElementById('card-number');
+  const expiryDateInput = document.getElementById('expiry-date');
+  const securityCodeInput = document.getElementById('security-code');
 
+  cardNumberInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formattedValue = '';
+    for (let i = 0; i < value.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedValue += ' ';
+      }
+      formattedValue += value[i];
+    }
+    e.target.value = formattedValue.slice(0, 19);
+  });
+
+  expiryDateInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    e.target.value = value.slice(0, 5);
+  });
+
+  securityCodeInput.addEventListener('input', function(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+  });
+});
 // ホームページに戻る関数を更新
 function returnToHome(event) {
     event.preventDefault();
