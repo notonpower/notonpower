@@ -1200,11 +1200,11 @@ header h1 a:hover {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  gap: 10px;  /* ボタンとフォームの間隔 */
 }
 
 .coupon-input-container {
   flex-grow: 1;
-  margin-right: 10px;
 }
 
 #coupon-input {
@@ -1212,6 +1212,8 @@ header h1 a:hover {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  height: 40px;  /* ボタンの高さに合わせる */
+  box-sizing: border-box;
 }
 
 #apply-coupon {
@@ -1221,10 +1223,17 @@ header h1 a:hover {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  height: 40px;  /* フォームの高さに合わせる */
+  line-height: 20px;  /* テキストを縦中央に */
 }
 
 #apply-coupon:hover {
   background-color: var(--secondary-color);
+}
+
+.coupon-error {
+  margin-top: 5px;
+  font-size: 0.9em;
 }
 
 .order-totals > div {
@@ -1525,7 +1534,32 @@ header h1 a:hover {
     showAddToCartNotification(product);
     updateOrderSummary();
 }
-    
+    document.getElementById('apply-coupon').addEventListener('click', function() {
+  const couponInput = document.getElementById('coupon-input');
+  const couponError = document.getElementById('coupon-error');
+  const couponCode = couponInput.value.trim();
+  
+  if (couponCode === 'NOTONPOWER') {
+    discountPercentage = 50;
+    couponInput.style.borderColor = 'green';
+    couponError.textContent = 'クーポンが適用されました！';
+    couponError.style.color = 'green';
+    couponError.style.display = 'block';
+    updateOrderSummary();
+  } else {
+    discountPercentage = 0;
+    couponInput.style.borderColor = '#ff6b6b';
+    couponError.textContent = '有効なクーポンコードを入力してください';
+    couponError.style.color = '#ff6b6b';
+    couponError.style.display = 'block';
+  }
+  
+  // スムーズなアニメーション効果
+  couponInput.style.transition = 'border-color 0.3s ease';
+  setTimeout(() => {
+    couponInput.style.borderColor = '';
+  }, 2000);
+});
         function toggleCreditCardFields(show) {
     const creditCardFields = document.getElementById("credit-card-fields");
     creditCardFields.style.display = show ? "block" : "none";
@@ -1838,31 +1872,26 @@ function showCheckout() {
     const checkoutPage = document.getElementById("checkout-page");
     const heroSection = document.querySelector('.hero-section');
 
-    // カートの詳細を閉じる
     document.getElementById("cart-details").style.display = "none";
-
-    // 商品ページとヒーローセクションをフェードアウト
     productsPage.classList.add('fade-out');
     heroSection.classList.add('fade-out');
 
-    // アニメーションの完了を待ってからチェックアウトページを表示
     setTimeout(() => {
         productsPage.classList.remove('active');
         heroSection.style.display = 'none';
         checkoutPage.classList.add('active');
 
-        // チェックアウトページをフェードイン
         setTimeout(() => {
             checkoutPage.classList.remove('fade-out');
         }, 50);
 
-        updateOrderSummary();
-        // ページの一番上にスムーズにスクロール
+        updateOrderSummary();  // この位置に移動
+        updateCart();  // カート更新も追加
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-    }, 500); // CSSのトランジション時間と合わせる
+    }, 500);
 }
 document.addEventListener('DOMContentLoaded', function() {
   const cardNumberInput = document.getElementById('card-number');
