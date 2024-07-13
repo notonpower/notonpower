@@ -770,6 +770,17 @@ display: flex;
     display: none;
     margin-top: 20px;
 }
+
+.total .currency {
+  font-size: 0.8em;
+  color: #999;
+  margin-right: 5px;
+}
+
+.total .amount {
+  font-weight: bold;
+}
+
 .order-button {
     background-color: #4CAF50;
     color: white;
@@ -1633,9 +1644,9 @@ header h1 a:hover {
       <span id="shipping-amount"></span>
     </div>
     <div class="total">
-      <span>合計</span>
-      <span id="total-amount"></span>
-    </div>
+        <span>合計</span>
+        <span id="total-amount"><span class="currency">JPY</span> <span class="amount"></span></span>
+      </div>
   </div>
  <p class="tax-note"></p>
 </div>
@@ -2403,7 +2414,8 @@ function updateOrderSummary() {
     document.querySelector('.order-totals').insertBefore(discountElement, document.querySelector('.total'));
   }
   
-  totalAmount.textContent = `¥${total.toLocaleString()}`;
+  // ここを変更
+  totalAmount.innerHTML = `<span class="currency">JPY</span> <span class="amount">¥${total.toLocaleString()}</span>`;
   
   // 税金の表示を更新
   taxNote.textContent = `¥${tax.toLocaleString()}の税金を含む`;
