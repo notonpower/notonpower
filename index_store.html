@@ -1303,7 +1303,7 @@ header h1 a:hover {
             <span></span>
             <span></span>
         </div>
-         <a href="#" class="logo">
+         <a href="index_store.html" class="logo">
     <img src="store_logo.png" alt="Where Wear Store" width="auto" height="40">
 </a>
         <div class="cart-icon">
@@ -1542,6 +1542,15 @@ header h1 a:hover {
     <div class="loading" id="loading"></div>
 
     <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('click', function(e) {
+        e.preventDefault(); // デフォルトの挙動を防ぐ
+        window.location.href = 'index_store.html'; // index_store.htmlにリダイレクト
+    });
+});
+    
     function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     cart.push(product);
