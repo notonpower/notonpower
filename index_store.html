@@ -32,7 +32,7 @@
 
 /* エクスプレスチェックアウト（デジタル決済）のロゴサイズを大きくする */
 .payment-option[data-payment-type="digital-payment"] .card-logo {
-    height: 32px; /* または希望のサイズ */
+    max-height: 100px; /* または希望のサイズ */
     width: auto;
 }
 
@@ -1630,6 +1630,10 @@ header h1 a:hover {
           <input type="radio" name="digital-payment" value="paypal" onchange="selectDigitalPayment(this)">
           <img src="paypal.svg" alt="PayPal" class="card-logo">
         </label>
+        <label class="digital-payment-brand">
+            <input type="radio" name="digital-payment" value="shoppay" onchange="selectDigitalPayment(this)">
+            <img src="shoppay.svg" alt="ShopPay" class="card-logo">
+          </label>
       </div>
     </div>
 
@@ -2460,6 +2464,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <img src="jcb.svg" alt="JCB" class="payment-logo">
             <img src="american-express.svg" alt="American Express" class="payment-logo">
             <img src="paypal.svg" alt="PayPal" class="payment-logo">
+            <img src="shoppay.svg" alt="Shop Pay" class="payment-logo">
             <img src="apple-pay.svg" alt="Apple Pay" class="payment-logo">
             <img src="google-pay.svg" alt="Google Pay" class="payment-logo">
         </div>
