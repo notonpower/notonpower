@@ -1635,7 +1635,7 @@ header h1 a:hover {
  <p class="tax-note"></p>
 </div>
             <div class="button-container">
-<button type="submit" class="submit-btn">今すぐ支払う</button>
+<button type="submit" id="pay-now-button">今すぐ支払う</button>
 </div>
             </form>
         </div>
@@ -1883,11 +1883,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-  const orderButton = document.getElementById('order-button');
-    if (orderButton) {
-        orderButton.addEventListener('click', handleSubmit);
+      // 支払いボタンのイベントリスナーを追加
+    const payNowButton = document.getElementById('pay-now-button');
+    if (payNowButton) {
+        payNowButton.addEventListener('click', handleSubmit);
     } else {
-        console.error('注文ボタンが見つかりません');
+        console.error('支払いボタンが見つかりません');
     }
 
     // 初期状態でクレジットカードが選択されている場合、フィールドを表示
