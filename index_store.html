@@ -1127,6 +1127,80 @@ footer {
 }
 
 .cart-details {
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cart-details h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-name {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+}
+
+.cart-item-price {
+    font-size: 12px;
+    color: #666;
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 5px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+#checkout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#checkout-button:hover {
+    background-color: #333;
+}
+.cart-details {
     position: fixed;
     top: 60px;
     right: 20px;
@@ -1325,12 +1399,16 @@ header h1 a:hover {
         <a href="https://www.twitch.tv/" target="_blank">Twitch</a>
     </div>
 </div>
-    <div id="cart-details" class="cart-details">
-        <h3>ショッピングカート</h3>
-        <div id="cart-items"></div>
-        <p>合計: <span id="cart-total">0</span>円</p>
-        <button onclick="showCheckout()">チェックアウトに進む</button>
-    </div><div id="add-to-cart-notification" class="add-to-cart-notification"></div>
+<div id="cart-details" class="cart-details">
+    <h3>カート</h3>
+    <div id="cart-items"></div>
+    <div class="cart-total">
+        <span>合計:</span>
+        <span id="cart-total">0</span>
+    </div>
+    <button id="checkout-button" onclick="showCheckout()">チェックアウト</button>
+</div>
+<div id="add-to-cart-notification" class="add-to-cart-notification"></div>
     <div class="hero-section">
         <div class="slideshow-container">
             <div class="slideshow-images">
@@ -1687,18 +1765,28 @@ function togglePaymentFields(paymentType) {
         digitalPaymentFields.style.display = "block";
     }
 }
-        function updateCart() {
+function updateCart(keepOpen = false) {
     const cartItems = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
     const cartCount = document.getElementById("cart-count");
     const orderSummary = document.getElementById("order-summary");
+    const cartDetails = document.getElementById("cart-details");
     
     cartItems.innerHTML = "";
     orderSummary.innerHTML = "<h3 class='section-title'>注文確認</h3>";
     let total = 0;
     
-    cart.forEach(item => {
-        cartItems.innerHTML += `<p>${item.name} - ${item.price.toLocaleString()}円</p>`;
+    cart.forEach((item, index) => {
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <p class="cart-item-name">${item.name}</p>
+                    <p class="cart-item-price">¥${item.price.toLocaleString()}</p>
+                </div>
+                <button class="remove-item-btn" onclick="removeFromCart(${index}, event)">×</button>
+            </div>
+        `;
         
         orderSummary.innerHTML += `
             <div class="order-item">
@@ -1716,15 +1804,38 @@ function togglePaymentFields(paymentType) {
     cartTotal.textContent = total.toLocaleString();
     cartCount.textContent = cart.length;
     
-  orderSummary.innerHTML += `
-    <div class="order-total">
-        <h3>小計</h3>
-        <p>¥${total.toLocaleString()}</p>
-    </div>
-`;
-      updateOrderSummary();
+    orderSummary.innerHTML += `
+        <div class="order-total">
+            <h3>小計</h3>
+            <p>¥${total.toLocaleString()}</p>
+        </div>
+    `;
+    
+    updateOrderSummary();
     localStorage.setItem('cart', JSON.stringify(cart));
+
+    if (keepOpen) {
+        cartDetails.style.display = 'block';
+    }
 }
+
+function removeFromCart(index, event) {
+    event.stopPropagation(); // イベントの伝播を停止
+    cart.splice(index, 1);
+    updateCart(true); // カートを開いたままにする
+}
+
+function toggleCartDetails() {
+    const cartDetails = document.getElementById("cart-details");
+    if (cartDetails.style.display === "none" || cartDetails.style.display === "") {
+        cartDetails.style.display = "block";
+    } else {
+        cartDetails.style.display = "none";
+    }
+}
+
+// チェックアウトボタンのイベントリスナー
+document.getElementById('checkout-button').addEventListener('click', showCheckout);
 document.addEventListener('DOMContentLoaded', function() {
     // ... 他のコード ...
     const paymentOptions = document.querySelectorAll('.payment-option');
