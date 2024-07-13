@@ -83,7 +83,7 @@
 }
         :root {
             --primary-color: #000000;
-            --secondary-color: #81D8D0;
+            --secondary-color: #004043;
             --background-color: #f8f8f8;
             --surface-color: #ffffff;
             --text-color: #333333;
@@ -1153,10 +1153,10 @@ footer {
     position: absolute;
     top: -10px;
     right: -10px;
-    background-color: var(--secondary-color);
     color: white;
+    background-color: #004043;
     border-radius: 50%;
-    padding: 2px 6px;
+    padding: 2px 5.67px;
     font-size: 12px;
 }
 
@@ -1705,18 +1705,22 @@ header h1 a:hover {
 
 
 const products = [
-    { id: 1, name: "WHERE WEAR WING TEE", price: 6600, image: "wingtee.jpg" },
-    { id: 2, name: "2024 OFFICIAL JERSEY", price: 12000, image: "jersey.jpg" },
-    { id: 3, name: "WHERE WEAR CREW NECK SWEAT", price: 12900, image: "sweat.jpg" },
-    { id: 4, name: "SPACE WHERE WEAR CUSHION", price: 4700, image: "cushion.jpg" },
-    { id: 5, name: "WHERE WEAR BASIC CAP", price: 4500, image: "cap.jpg" },
-    { id: 6, name: "WHERE WEAR PRO JACKET", price: 15000, image: "jacket.jpg" },
-    { id: 7, name: "WHERE WEAR SATIN JACKET", price: 22000, image: "satin.jpg" },
-    { id: 8, name: "WHERE WEAR METAL KEY CHAIN", price: 1500, image: "metalkey.jpg" },
-    { id: 9, name: "WHERE WEAR ACRYLIC KEY CHAIN", price: 1500, image: "acrylickey.jpg" },
-    { id: 10, name: "WHERE WEAR AMERICAN FOODIE", price: 14900, image: "foodie_american.jpg" },
-    { id: 11, name: "WHERE WEAR HEADSET BLACK TEE", price: 6600, image: "blacktee.jpg" },
-    { id: 12, name: "WHERE WEAR GLASS", price: 2000, image: "glass.jpg" }
+    { id: 1, name: "WHERE WEAR ALOHA SHIRT", price: 14800, image: "aloha.jpg" },
+    { id: 2, name: "WHERE WEAR SUMMER TEE", price: 6600, image: "summertee.jpg" },
+    { id: 3, name: "WHERE WEAR STRAW HAT", price: 7900, image: "strawhat.jpg" },
+    { id: 4, name: "WHERE WEAR TOTE BAG", price: 4100, image: "bag.jpg" }, 
+    { id: 5, name: "WHERE WEAR WING TEE", price: 6600, image: "wingtee.jpg" },
+    { id: 6, name: "2024 OFFICIAL JERSEY", price: 12000, image: "jersey.jpg" },
+    { id: 7, name: "WHERE WEAR CREW NECK SWEAT", price: 12900, image: "sweat.jpg" },
+    { id: 8, name: "SPACE WHERE WEAR CUSHION", price: 4700, image: "cushion.jpg" },
+    { id: 9, name: "WHERE WEAR BASIC CAP", price: 4500, image: "cap.jpg" },
+    { id: 10, name: "WHERE WEAR PRO JACKET", price: 15000, image: "jacket.jpg" },
+    { id: 11, name: "WHERE WEAR SATIN JACKET", price: 22000, image: "satin.jpg" },
+    { id: 12, name: "WHERE WEAR METAL KEY CHAIN", price: 1500, image: "metalkey.jpg" },
+    { id: 13, name: "WHERE WEAR ACRYLIC KEY CHAIN", price: 1500, image: "acrylickey.jpg" },
+    { id: 14, name: "WHERE WEAR AMERICAN FOODIE", price: 14900, image: "foodie_american.jpg" },
+    { id: 15, name: "WHERE WEAR HEADSET BLACK TEE", price: 6600, image: "blacktee.jpg" },
+    { id: 16, name: "WHERE WEAR GLASS", price: 2000, image: "glass.jpg" }
 ];
 
     let cart = [];
@@ -1831,7 +1835,7 @@ function updateCart(keepOpen = false) {
         total += item.price;
     });
     
-    cartTotal.textContent = total.toLocaleString();
+    cartTotal.textContent = `¥${total.toLocaleString()}`;
     cartCount.textContent = cart.length;
     
     orderSummary.innerHTML += `
