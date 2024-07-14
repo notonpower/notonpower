@@ -251,6 +251,48 @@ h1 {
     width: 100%;
     height: 100%;
 }
+.site-map {
+  background-color: #f8f8f8;
+  padding: 40px 0;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.footer-logo {
+  max-width: 150px;
+  height: auto;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
+.menu-category h3 {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.menu-category h3 a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.menu-category h3 a:hover {
+  color: #007bff;
+}
+
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .game-platform{
                 font-weight: bold;
             color: var(--accent-color);
@@ -1478,7 +1520,36 @@ h1 {
             <p class="english-text"><strong>Where wear is an e-sports team that was launched on November 2, 2020, the day the clan function of Apex Legends was implemented. Combining "Where" meaning "where you are" and "Wear" meaning "to wear," it may mean that it doesn't matter where you are or what you wear. I'm lying, it's just a pun.</strong></p>
         </div>
     </main>
-
+    <section class="site-map">
+        <div class="container">
+          <div class="logo-container">
+            <img src="logo.PNG" alt="Where Wear Logo" class="footer-logo">
+          </div>
+          <div class="menu-grid">
+            <div class="menu-category">
+              <h3><a href="index.html"><strong>HOME</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index_news.html"><strong>NEWS</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index_members.html"><strong>MEMBERS</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index_about.html"><strong>ABOUT</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index_partners.html"><strong>PARTNERS</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index.html#contact"><strong>CONTACT</strong></a></h3>
+            </div>
+            <div class="menu-category">
+              <h3><a href="index_store.html"><strong>STORE</strong></a></h3>
+            </div>
+          </div>
+        </div>
+      </section>
     <footer>
         <div class="container">
             <p>2024 Where Wear. Everything on this site is not true.</p>
