@@ -258,7 +258,7 @@ display: flex;
     font-weight: bold;
     color: var(--primary-color);
     text-decoration: none;
-    padding-right: 82px;
+    
 }
 
 .hero-section {
@@ -997,6 +997,22 @@ display: flex;
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
+}
+.order-confirmation {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.order-confirmation h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.order-confirmation p {
+    font-size: 0.9em;
+    margin-bottom: 0;
 }
 
 /* 追加: クレジットカードフィールドのスタイル */
@@ -1809,22 +1825,49 @@ header h1 a:hover {
         </div>
         <div id="complete-page" class="page">
             <div class="order-complete">
-                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <svg class="checkmark" xmlns="<http://www.w3.org/2000/svg>" viewBox="0 0 52 52">
                     <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
                     <path class="checkmark__check" fill="none" stroke="#fff" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                 </svg>
-                <h2>ありがとうございます。注文が確定されました。</h2>
-                <p>注文の詳細と確認のEメールを送信しました。</p>
-                <button onclick="resetStore()">ショッピングを続ける</button>
+                <h2 id="order-complete-message">ご注文ありがとうございます。</h2>
+                <div class="order-confirmation">
+                    <h3>ご注文が確認されました</h3>
+                    <p>注文番号を含む確認メールが間もなく届きます。</p>
+                </div>
+                <button onclick="returnToShopping()">ショッピングを続ける</button>
             </div>
         </div>
-    </div>
+        
 
     <div class="add-to-cart-message" id="add-to-cart-message">商品がカートに追加されました</div>
     <div class="loading" id="loading"></div>
 
     <script>
-    
+    function completeOrder() {
+    const lastName = document.getElementById('lastname').value.trim();
+
+    // カートを空にする
+    cart = [];
+    updateCart();
+    localStorage.removeItem('cart');
+
+    // メッセージを更新
+    const orderCompleteMessage = document.getElementById('order-complete-message');
+    orderCompleteMessage.textContent = `ご注文ありがとうございます。${lastName ? `${lastName}様!` : ''}`;
+
+    // 注文完了ページを表示
+    document.getElementById('checkout-page').classList.remove('active');
+    document.getElementById('complete-page').classList.add('active');
+
+    // チェックマークのアニメーションをトリガー
+    const checkmark = document.querySelector('.checkmark');
+    checkmark.classList.add('animate');
+
+    // カートアイコンの表示を更新
+    updateCartIcon();
+}
+
+
     document.addEventListener('DOMContentLoaded', function() {
     const logo = document.querySelector('.logo');
     logo.addEventListener('click', function(e) {
@@ -2461,27 +2504,14 @@ window.addEventListener('scroll', updateHeaderBackground);
 window.addEventListener('resize', updateHeaderBackground);
 updateHeaderBackground();
 
-function resetStore() {
-    cart = [];
-    updateCart();
-    document.getElementById("complete-page").classList.remove("active");
-    document.getElementById("products-page").classList.add("active");
-    
-    // 注文完了ページの内容をリセット
-    const orderCompletePage = document.querySelector('.order-complete');
-    orderCompletePage.innerHTML = `
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark__check" fill="none" stroke="#fff" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-        </svg>
-        <h2></h2>
-        <p></p>
-        <button onclick="resetStore()" style="display: none;">ショッピングを続ける</button>
-    `;
 
-    // カートアイコンのイベントリスナーを再設定
-    document.querySelector('.cart-icon').addEventListener('click', toggleCartDetails);
-}
+
+
+// resetStore 関数は削除し、その機能を completeOrder と returnToShopping に分割しました
+
+
+// 既存の resetStore 関数を削除または修正
+
 
         let notificationTimeout;
 
