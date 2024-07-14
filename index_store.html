@@ -13,6 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where Wear Store</title>
     <style>
+#coupon-input,
+#apply-coupon {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font: inherit;
+}
   .section-title {
   font-weight: bold;
   margin-bottom: 15px;
@@ -28,6 +35,24 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+.card-number-group {
+  position: relative;
+}
+
+#card-number {
+  padding-right: 40px; /* 鍵アイコンのためのスペース */
+}
+
+.secure-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  padding-bottom: 17px;
+  transform: translateY(-50%);
+  width: 20px; /* アイコンのサイズを調整 */
+  height: 20px;
+  opacity: 0.6; /* アイコンを少し透明に */
 }
 
 /* エクスプレスチェックアウト（デジタル決済）のロゴサイズを大きくする */
@@ -1453,60 +1478,62 @@ header h1 a:hover {
 .order-items {
   margin-bottom: 15px;
 }
+
+
 .coupon-code {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 15px;
+  gap: 10px;
 }
 
 .coupon-input-container {
-    flex-grow: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 #coupon-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    height: 40px;
-    box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 44px;
 }
 
 #apply-coupon {
-    padding: 10px 15px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    height: 40px;
-    line-height: 20px;
-    white-space: nowrap;
-    min-width: 80px;
+  height: 44px;
+  padding: 0 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 44px;
+  cursor: pointer;
+  white-space: nowrap;
 }
-
 
 #apply-coupon:hover {
   background-color: var(--secondary-color);
 }
 
 .coupon-error {
-  margin-top: 5px;
+  color: #ff6b6b;
   font-size: 0.9em;
+  margin-top: 5px;
 }
 
-@media (max-width: 700px) {
-    .coupon-code {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    #apply-coupon {
-        width: 100%;
-        margin-top: 10px;
-    }
+/* スマートフォン向けスタイル */
+@media (max-width: 768px) {
+  #coupon-input,
+  #apply-coupon {
+    font-size: 14px; /* スマートフォン用に小さいフォントサイズ */
+  }
 }
+
 
 .order-totals > div {
   display: flex;
@@ -1697,9 +1724,6 @@ header h1 a:hover {
   <div class="form-group">
     <input type="text" id="address" name="address" placeholder="住所" required>
   </div>
-  <div class="form-group">
-    <input type="text" id="building" name="building" placeholder="建物名、部屋番号など（任意）">
-  </div>
  <div class="form-group">
     <input type="tel" id="phone" name="phone" placeholder="電話番号" required>
   </div>
@@ -1723,9 +1747,10 @@ header h1 a:hover {
         <img src="american-express.svg" alt="American Express" class="card-logo">
       </div>
       <div id="credit-card-fields" class="payment-fields">
-        <div class="form-group">
-          <input type="text" id="card-number" name="card-number" placeholder="カード番号" required>
-        </div>
+        <div class="form-group card-number-group">
+            <input type="text" id="card-number" name="card-number" placeholder="カード番号" required>
+            <img src="lock.svg" alt="セキュア" class="secure-icon">
+          </div>
         <div class="form-group">
           <input type="text" id="expiry-date" name="expiry-date" placeholder="有効期限（月/年）" required>
         </div>
@@ -1752,13 +1777,15 @@ header h1 a:hover {
   <div class="order-items">
     <!-- 注文アイテムがここに動的に追加されます -->
   </div>
-<div class="coupon-code">
-  <div class="coupon-input-container">
-    <input type="text" id="coupon-input" placeholder="クーポンコード">
-    <p id="coupon-error" class="coupon-error"></p>
+  <div class="coupon-code">
+    <div class="coupon-input-container">
+      <input type="text" id="coupon-input" placeholder="クーポンコード">
+      <p id="coupon-error" class="coupon-error"></p>
+    </div>
+    <button id="apply-coupon">適用する</button>
   </div>
-  <button id="apply-coupon">適用する</button>
-</div>
+  
+  
   <div class="order-totals">
     <div class="subtotal">
       <span>小計</span>
